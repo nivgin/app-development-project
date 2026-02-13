@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/RecipesFeed">
+    <fragment android:id="@+id/RecipesFeed"
+        android:name="com.example.recipease.fragments.RecipesFeed"
+        android:label="Recipes Feed"
+        tools:layout="@layout/fragment_recipes_feed" />
+    <fragment android:id="@+id/ProfilePage"
+        android:name="com.example.recipease.fragments.ProfilePage"
+        android:label="Profile Page"
+        tools:layout="@layout/fragment_profile_page" />
+    <fragment android:id="@+id/AddRecipe"
+        android:name="com.example.recipease.fragments.AddRecipe"
+        android:label="Add Recipe"
+        tools:layout="@layout/fragment_add_recipe" />
+</navigation>
