@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_recipe_card_bg"
+        >
+
+        <!-- Recipe Image -->
+        <ImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="#CCCCCC"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/recipeTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Recipe Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@id/recipeImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/recipeDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"
+            android:text="A long description that will span across two lines or more..."
+            android:textSize="14sp"
+            android:textColor="@color/gray_text"
+            app:layout_constraintTop_toBottomOf="@id/recipeTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Time + Difficulty Row -->
+        <LinearLayout
+            android:id="@+id/recipeDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toBottomOf="@id/recipeDescription"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_time"
+                android:textColor="@color/gray_text" />
+
+            <TextView
+                android:id="@+id/recipeTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="Time"
+                android:textSize="14sp"
+                android:textColor="@color/gray_text" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_chef"
+                android:textColor="@color/gray_text"/>
+
+            <TextView
+                android:id="@+id/recipeDifficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="Difficulty"
+                android:textSize="14sp"
+                android:textColor="@color/gray_text" />
+        </LinearLayout>
+
+        <!-- Material Divider -->
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:dividerThickness="1dp"
+            app:dividerColor="@color/gray_divider"
+            app:layout_constraintTop_toBottomOf="@id/recipeDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Author Profile Picture -->
+        <ImageView
+            android:id="@+id/authorImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_profile_placeholder"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_mask"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- "by" text -->
+        <TextView
+            android:id="@+id/recipeByText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="by"
+            android:textSize="14sp"
+            android:textColor="@color/gray_text"
+            app:layout_constraintTop_toTopOf="@id/authorImage"
+            app:layout_constraintBottom_toBottomOf="@id/authorImage"
+            app:layout_constraintStart_toEndOf="@id/authorImage" />
+
+        <!-- Author name -->
+        <TextView
+            android:id="@+id/recipeAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="Author"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/recipeByText"
+            app:layout_constraintBottom_toBottomOf="@id/recipeByText"
+            app:layout_constraintStart_toEndOf="@id/recipeByText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

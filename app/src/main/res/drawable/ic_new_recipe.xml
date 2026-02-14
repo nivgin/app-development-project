@@ -1,0 +1,49 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Outer circle with diagonal gradient -->
+    <path
+        android:pathData="M24,2
+                          a22,22 0 1,1 0,44
+                          a22,22 0 1,1 0,-44">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="8"
+                android:startY="8"
+                android:endX="40"
+                android:endY="40"
+                android:startColor="#D96A33"
+                android:endColor="#F4A06A"
+            />
+        </aapt:attr>
+    </path>
+
+    <!-- Inner white circle (stroke only) -->
+    <path
+        android:pathData="M24,11
+                          a13,13 0 1,1 0,26
+                          a13,13 0 1,1 0,-26"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.2" />
+
+    <!-- Vertical line of plus -->
+    <path
+        android:pathData="M24,18 L24,30"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3.2"
+        android:strokeLineCap="round" />
+
+    <!-- Horizontal line of plus -->
+    <path
+        android:pathData="M18,24 L30,24"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3.2"
+        android:strokeLineCap="round" />
+
+</vector>
