@@ -2,11 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/RecipesFeed"
         android:title="@string/recipes_feed"
+        android:icon="@drawable/ic_house"
         />
     <item android:id="@+id/AddRecipe"
         android:title="@string/add_recipe"
+        android:icon="@drawable/ic_new_recipe"
         />
     <item android:id="@+id/ProfilePage"
         android:title="@string/profile"
+        android:icon="@drawable/ic_profile"
         />
 </menu>

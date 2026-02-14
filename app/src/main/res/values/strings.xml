@@ -2,7 +2,11 @@
     <string name="app_name">recipease</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="recipes_feed">Recipes</string>
-    <string name="add_recipe">Add Recipe</string>
+    <string name="recipes_feed">Home</string>
+    <string name="add_recipe"></string>
     <string name="profile">Profile</string>
+    <string name="search_recipes">Search recipes...</string>
+    <string name="discover_recipes">Discover Recipes</string>
+    <string name="hello_username">Hello, User 👋</string>
+    <string name="all_recipes">All Recipes</string>
 </resources>

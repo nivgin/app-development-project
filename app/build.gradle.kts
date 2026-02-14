@@ -9,7 +9,9 @@ android {
     compileSdk {
         version = release(36)
     }
-
+    viewBinding {
+        enable = true
+    }
     defaultConfig {
         applicationId = "com.example.recipease"
         minSdk = 24
@@ -50,4 +52,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 }

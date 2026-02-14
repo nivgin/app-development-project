@@ -1,14 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RecipesFeed">
+    android:fillViewport="true"
+    android:padding="0dp"
+    tools:context=".fragments.recipesFeed.RecipesFeed">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="All Recipes" />
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-</FrameLayout>
+        <!-- Title -->
+        <TextView
+            android:id="@+id/greetUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_username"
+            android:textSize="20sp"
+            android:textColor="@color/gray_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Discover Title -->
+        <TextView
+            android:id="@+id/titleDiscover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discover_recipes"
+            android:textSize="36sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/greetUser"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Search Bar -->
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:hint="@string/search_recipes"
+            android:textColorHint="@color/gray_text"
+            android:paddingStart="20dp"
+            android:paddingEnd="12dp"
+            android:textSize="20sp"
+            android:background="@drawable/bg_search_rounded"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="12dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/titleDiscover"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Tags Recycler -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tagsRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/searchBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- All Recipes Title -->
+        <TextView
+            android:id="@+id/titleAllRecipes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all_recipes"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tagsRecycler"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Recipes Recycler -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecipesRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/titleAllRecipes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

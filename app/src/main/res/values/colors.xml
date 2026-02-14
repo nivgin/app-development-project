@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray_navbar">#FEFDFB</color>
+    <color name="orange">#E67C4D</color>
+    <color name="gray">#7e6f67</color>
+    <color name="gray_divider">#e3dedb</color>
+    <color name="gray_text">#7f756f</color>
+    <color name="white_recipe_card_bg">#fdfcfc</color>
+    <color name="app_bg_white">#f9f7f5</color>
 </resources>
