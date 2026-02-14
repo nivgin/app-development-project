@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/RecipesFeed"
+        android:title="@string/recipes_feed"
+        />
+    <item android:id="@+id/AddRecipe"
+        android:title="@string/add_recipe"
+        />
+    <item android:id="@+id/ProfilePage"
+        android:title="@string/profile"
+        />
+</menu>
