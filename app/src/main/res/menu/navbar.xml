@@ -5,7 +5,6 @@
         android:icon="@drawable/ic_house"
         />
     <item android:id="@+id/AddRecipe"
-        android:title="@string/add_recipe"
         android:icon="@drawable/ic_new_recipe"
         />
     <item android:id="@+id/ProfilePage"
