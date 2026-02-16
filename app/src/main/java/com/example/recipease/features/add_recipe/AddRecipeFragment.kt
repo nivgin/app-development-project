@@ -6,7 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.recipease.R
 import com.example.recipease.databinding.FragmentAddRecipeBinding
+import com.example.recipease.features.recipes_feed.tagsViewAdapter
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 
 class AddRecipeFragment : Fragment() {
 
@@ -25,6 +31,20 @@ class AddRecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val tags = listOf(
+            "Burgers", "Italian", "Dessert", "Vegan", "Asian",
+            "BBQ", "Mexican", "Healthy", "Pasta", "Salads"
+        )
+
+        binding.tagsRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+            flexDirection = FlexDirection.ROW
+            flexWrap = FlexWrap.WRAP
+        }
+        binding.tagsRecycler.isNestedScrollingEnabled = false
+        binding.tagsRecycler.adapter = tagsViewAdapter(tags) { selectedTags ->
+            // Use it here
+        }
 
         ingredientsAdapter = IngredientsViewAdapter(mutableListOf()) { updatedList ->
             // You get the updated list here if you need it

@@ -9,18 +9,18 @@ import com.example.recipease.model.Ingredient
 class IngredientsViewAdapter(
     private val ingredients: MutableList<Ingredient>,
     private val onListChanged: (List<Ingredient>) -> Unit
-) : RecyclerView.Adapter<IngredientViewHolder>() {
+) : RecyclerView.Adapter<IngredientsViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsViewHolder {
         val binding = ItemIngredientBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return IngredientViewHolder(binding)
+        return IngredientsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         val ingredient = ingredients[position]
 
         holder.bind(

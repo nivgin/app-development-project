@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemIngredientBinding
 import com.example.recipease.model.Ingredient
 
-class IngredientViewHolder(
+class IngredientsViewHolder(
     val binding: ItemIngredientBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
