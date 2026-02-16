@@ -1,14 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ViewRecipe">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewRecipeTitleCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewRecipeImage">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_recipe_card_bg"
+            android:padding="16dp">
+
+            <!-- Recipe Title -->
+            <TextView
+                android:id="@+id/viewRecipeTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Recipe Name"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/viewRecipeDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="A long description that will span across two lines or more..."
+                android:textColor="@color/gray_text"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewRecipeTitle" />
+
+            <!-- Material Divider -->
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/viewRecipeDivider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:dividerColor="@color/gray_divider"
+                app:dividerThickness="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewRecipeDescription" />
+
+            <!-- Author Profile Picture -->
+            <ImageView
+                android:id="@+id/viewRecipeAuthorImage"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/circle_mask"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_profile_placeholder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewRecipeDivider" />
+
+            <!-- Author name -->
+            <TextView
+                android:id="@+id/viewRecipeAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="Author"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/viewRecipeAuthorImage"
+                app:layout_constraintStart_toEndOf="@id/viewRecipeAuthorImage"
+                app:layout_constraintTop_toTopOf="@id/viewRecipeAuthorImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Recipe Details Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewRecipeDetailsCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewRecipeTitleCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_recipe_card_bg"
+            android:padding="16dp">
+
+            <!-- Time + Difficulty + Servings Row -->
+            <LinearLayout
+                android:id="@+id/viewRecipeDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_time"
+                    android:contentDescription="Time icon" />
+
+                <TextView
+                    android:id="@+id/viewRecipeTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="30 min"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_text" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_chef"
+                    android:contentDescription="Difficulty icon" />
+
+                <TextView
+                    android:id="@+id/viewRecipeDifficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="Medium"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_text" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_profile_placeholder"
+                    android:contentDescription="Servings icon" />
+
+                <TextView
+                    android:id="@+id/viewRecipeServings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="4 servings"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_text" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Gradient fade overlay -->
+    <ImageView
+        android:id="@+id/viewRecipeImage"
+        android:layout_width="0dp"
+        android:layout_height="221dp"
+        android:adjustViewBounds="true"
+        android:background="#E0E0E0"
+        android:clickable="true"
+        android:contentDescription="Add Photo"
+        android:cropToPadding="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewRecipeImageFade"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:background="@drawable/fade_to_white"
+        app:layout_constraintBottom_toBottomOf="@id/viewRecipeImage"
+        app:layout_constraintStart_toStartOf="@id/viewRecipeImage"
+        app:layout_constraintEnd_toEndOf="@id/viewRecipeImage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
