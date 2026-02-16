@@ -5,15 +5,15 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/RecipesFeed">
     <fragment android:id="@+id/RecipesFeed"
-        android:name="com.example.recipease.fragments.recipesFeed.RecipesFeed"
+        android:name="com.example.recipease.features.recipes_feed.RecipesFeedFragment"
         android:label="Recipes Feed"
         tools:layout="@layout/fragment_recipes_feed" />
     <fragment android:id="@+id/ProfilePage"
-        android:name="com.example.recipease.fragments.ProfilePage"
+        android:name="com.example.recipease.features.ProfilePage"
         android:label="Profile Page"
         tools:layout="@layout/fragment_profile_page" />
     <fragment android:id="@+id/AddRecipe"
-        android:name="com.example.recipease.fragments.AddRecipe"
+        android:name="com.example.recipease.features.add_recipe.AddRecipeFragment"
         android:label="Add Recipe"
         tools:layout="@layout/fragment_add_recipe" />
 </navigation>

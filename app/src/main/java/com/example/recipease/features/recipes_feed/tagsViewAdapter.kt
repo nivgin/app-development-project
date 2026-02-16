@@ -1,4 +1,4 @@
-package com.example.recipease.fragments.recipesFeed
+package com.example.recipease.features.recipes_feed
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
