@@ -1,4 +1,4 @@
-package com.example.recipease.fragments
+package com.example.recipease.features
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

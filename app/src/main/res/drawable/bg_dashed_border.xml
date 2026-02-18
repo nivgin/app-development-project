@@ -1,0 +1,15 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Placeholder background color -->
+    <solid android:color="#eeebe8" />
+
+    <!-- Dashed border -->
+    <stroke
+        android:width="2dp"
+        android:color="#DDDDDD"
+        android:dashWidth="10dp"
+        android:dashGap="6dp" />
+
+    <corners android:radius="12dp" />
+</shape>

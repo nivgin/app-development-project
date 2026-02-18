@@ -1,14 +1,370 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.AddRecipe">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Add Recipe" />
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <!-- Image Picker -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/photoPicker"
+                android:layout_width="0dp"
+                android:layout_height="220dp"
+                android:background="@drawable/bg_dashed_border"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- The actual image (will be replaced when user picks a photo) -->
+                <ImageView
+                    android:id="@+id/ivPhoto"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Placeholder overlay -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/placeholder"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <ImageView
+                        android:id="@+id/ivCamera"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_camera"
+                        app:tint="@color/gray_text"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/tvAddPhoto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"/>
+
+                    <TextView
+                        android:id="@+id/tvAddPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add photo"
+                        android:textColor="@color/gray_text"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toBottomOf="@id/ivCamera"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!-- Title Label -->
+            <TextView
+                android:id="@+id/recipeTitleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/photoPicker"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Title -->
+            <EditText
+                android:id="@+id/recipeTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="e.g., Grandma's Famous Pasta"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:background="@drawable/bg_edittext"
+                app:layout_constraintTop_toBottomOf="@id/recipeTitleLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Description Label -->
+            <TextView
+                android:id="@+id/recipeDescriptionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/recipeTitle"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Description -->
+            <EditText
+                android:id="@+id/recipeDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Tell us about your recipe..."
+                android:minLines="3"
+                android:gravity="top"
+                android:padding="12dp"
+                android:background="@drawable/bg_edittext"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/recipeDescriptionLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Description Label -->
+            <TextView
+                android:id="@+id/tagsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tags"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/recipeDescription"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Tags Recycler -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tagsRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/tagsLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- Cook Time Label -->
+            <TextView
+                android:id="@+id/cookTimeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/tagsRecycler"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Servings Label -->
+            <TextView
+                android:id="@+id/servingsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Servings"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/tagsRecycler"
+                app:layout_constraintStart_toStartOf="@id/servings" />
+
+            <!-- Difficulty Label -->
+            <TextView
+                android:id="@+id/difficultyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Difficulty"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/tagsRecycler"
+                app:layout_constraintStart_toStartOf="@id/difficultyLayout" />
+
+            <!-- Cook Time -->
+            <EditText
+                android:id="@+id/cookTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="30 min"
+                android:padding="12dp"
+                android:background="@drawable/bg_edittext"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/cookTimeLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/servings" />
+
+            <!-- Servings -->
+            <EditText
+                android:id="@+id/servings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="4"
+                android:padding="12dp"
+                android:background="@drawable/bg_edittext"
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@id/cookTime"
+                app:layout_constraintStart_toEndOf="@id/cookTime"
+                app:layout_constraintEnd_toStartOf="@id/difficultyLayout" />
+
+            <!-- Difficulty -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/difficultyLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:hint="Easy"
+                app:endIconMode="dropdown_menu"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeColor="@android:color/transparent"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:layout_constraintTop_toTopOf="@id/cookTime"
+                app:layout_constraintStart_toEndOf="@id/servings"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/difficulty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="0dp"
+                    android:textSize="18sp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:background="@drawable/bg_edittext"
+                    android:focusable="false"
+                    android:clickable="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <!-- Ingredients Label -->
+            <TextView
+                android:id="@+id/ingredientsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingredients"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/difficultyLayout"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Ingredients RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingredientsRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/ingredientsLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/addIngredientBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Add ingredient"
+                android:textColor="@color/orange"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:paddingVertical="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toBottomOf="@id/ingredientsRecycler"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Instructions Label -->
+            <TextView
+                android:id="@+id/instructionsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instructions"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/addIngredientBtn"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Instructions RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/instructionsRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/instructionsLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/addStepBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Add step"
+                android:textColor="@color/orange"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:paddingVertical="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toBottomOf="@id/instructionsRecycler"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <!-- Notes -->
+            <EditText
+                android:id="@+id/notes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Any tips or variations..."
+                android:minLines="3"
+                android:gravity="top"
+                android:padding="12dp"
+                android:background="@drawable/bg_edittext"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/addStepBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Publish Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/publishBtn"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="20dp"
+                android:text="Publish Recipe"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bg_publish_button"
+                app:backgroundTint="@null"
+                android:backgroundTint="@null"
+                app:cornerRadius="12dp"
+                app:rippleColor="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/notes"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
