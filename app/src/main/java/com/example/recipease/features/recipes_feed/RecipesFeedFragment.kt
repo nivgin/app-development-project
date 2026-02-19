@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.R
+import com.example.recipease.model.Ingredient
 import com.example.recipease.model.Recipe
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -28,6 +29,8 @@ class RecipesFeedFragment : Fragment() {
             description = "A rich and silky pasta tossed in a velvety garlic‑parmesan sauce.",
             time = "25 min",
             difficulty = "Easy",
+            servings = "4",
+            notes = "Don't make the sauce too thick!",
             author = "Sofia Bennett",
             tags = listOf("Italian", "Pasta"),
             ingredients = listOf(),
@@ -39,6 +42,8 @@ class RecipesFeedFragment : Fragment() {
             time = "40 min",
             difficulty = "Medium",
             author = "Marcus Lee",
+            servings = "4",
+            notes = "",
             tags = listOf("Asian", "Healthy"),
             ingredients = listOf(),
             steps = listOf()
@@ -49,6 +54,8 @@ class RecipesFeedFragment : Fragment() {
             time = "30 min",
             difficulty = "Hard",
             author = "Elena Rivera",
+            servings = "4",
+            notes = "",
             tags = listOf("Dessert", "Healthy"),
             ingredients = listOf(),
             steps = listOf()

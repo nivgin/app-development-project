@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.ViewRecipe">
+    tools:context=".features.view_recipe.ViewRecipe">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -219,17 +219,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/viewRecipeDetailsCard" />
 
-            <!-- Ingredients RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/viewRecipeIngredientsRecyclerView"
+            <!-- Ingredients Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewRecipeIngredientsCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewRecipeIngredientsTitle" />
+                app:layout_constraintTop_toBottomOf="@id/viewRecipeIngredientsTitle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_recipe_card_bg"
+                    android:padding="16dp">
+
+                    <!-- Ingredients RecyclerView -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/viewRecipeIngredientsRecyclerView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Ingredients Title -->
             <TextView
@@ -244,7 +266,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewRecipeIngredientsRecyclerView" />
+                app:layout_constraintTop_toBottomOf="@id/viewRecipeIngredientsCard" />
 
             <!-- Steps RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
