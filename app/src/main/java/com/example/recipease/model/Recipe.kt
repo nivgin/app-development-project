@@ -5,6 +5,10 @@ data class Recipe (
     val description: String,
     val time: String,
     val difficulty: String,
+    val servings: String,
+    val notes: String,
     var author: String,
-    var tags: List<String>
+    var tags: List<String>,
+    var ingredients: List<Ingredient>,
+    var steps: List<String>
 )

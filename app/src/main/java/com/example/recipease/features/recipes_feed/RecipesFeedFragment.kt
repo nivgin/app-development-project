@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.R
+import com.example.recipease.model.Ingredient
 import com.example.recipease.model.Recipe
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
@@ -27,8 +29,12 @@ class RecipesFeedFragment : Fragment() {
             description = "A rich and silky pasta tossed in a velvety garlic‑parmesan sauce.",
             time = "25 min",
             difficulty = "Easy",
+            servings = "4",
+            notes = "Don't make the sauce too thick!",
             author = "Sofia Bennett",
-            tags = listOf("Italian", "Pasta")
+            tags = listOf("Italian", "Pasta"),
+            ingredients = listOf(),
+            steps = listOf()
         ),
         Recipe(
             name = "Spicy Honey Chicken Bowl",
@@ -36,7 +42,11 @@ class RecipesFeedFragment : Fragment() {
             time = "40 min",
             difficulty = "Medium",
             author = "Marcus Lee",
-            tags = listOf("Asian", "Healthy")
+            servings = "4",
+            notes = "",
+            tags = listOf("Asian", "Healthy"),
+            ingredients = listOf(),
+            steps = listOf()
         ),
         Recipe(
             name = "Classic Chocolate Lava Cake",
@@ -44,7 +54,11 @@ class RecipesFeedFragment : Fragment() {
             time = "30 min",
             difficulty = "Hard",
             author = "Elena Rivera",
-            tags = listOf("Dessert", "Healthy")
+            servings = "4",
+            notes = "",
+            tags = listOf("Dessert", "Healthy"),
+            ingredients = listOf(),
+            steps = listOf()
         )
     )
 
@@ -70,6 +84,11 @@ class RecipesFeedFragment : Fragment() {
         recipesRecycler.layoutManager = LinearLayoutManager(requireContext())
         recipesRecycler.isNestedScrollingEnabled = false
         recipesAdapter = recipeListViewAdapter(recipes)
+        recipesAdapter.listener = object : OnRecipeClickListener {
+            override fun onRecipeClick(recipe: Recipe, position: Int) {
+                onRecipeClickAction(recipe, position)
+            }
+        }
         recipesRecycler.adapter = recipesAdapter
     }
 
@@ -88,5 +107,9 @@ class RecipesFeedFragment : Fragment() {
 
         recipesCountView?.text = "${filtered.size} Recipes"
         recipesAdapter.updateList(filtered)
+    }
+
+    private fun onRecipeClickAction(recipe: Recipe, position: Int) {
+        findNavController().navigate(R.id.action_RecipesFeed_to_ViewRecipe)
     }
 }
