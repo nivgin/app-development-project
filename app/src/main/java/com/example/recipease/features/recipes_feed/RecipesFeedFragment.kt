@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.R
@@ -28,7 +29,9 @@ class RecipesFeedFragment : Fragment() {
             time = "25 min",
             difficulty = "Easy",
             author = "Sofia Bennett",
-            tags = listOf("Italian", "Pasta")
+            tags = listOf("Italian", "Pasta"),
+            ingredients = listOf(),
+            steps = listOf()
         ),
         Recipe(
             name = "Spicy Honey Chicken Bowl",
@@ -36,7 +39,9 @@ class RecipesFeedFragment : Fragment() {
             time = "40 min",
             difficulty = "Medium",
             author = "Marcus Lee",
-            tags = listOf("Asian", "Healthy")
+            tags = listOf("Asian", "Healthy"),
+            ingredients = listOf(),
+            steps = listOf()
         ),
         Recipe(
             name = "Classic Chocolate Lava Cake",
@@ -44,7 +49,9 @@ class RecipesFeedFragment : Fragment() {
             time = "30 min",
             difficulty = "Hard",
             author = "Elena Rivera",
-            tags = listOf("Dessert", "Healthy")
+            tags = listOf("Dessert", "Healthy"),
+            ingredients = listOf(),
+            steps = listOf()
         )
     )
 
@@ -70,6 +77,11 @@ class RecipesFeedFragment : Fragment() {
         recipesRecycler.layoutManager = LinearLayoutManager(requireContext())
         recipesRecycler.isNestedScrollingEnabled = false
         recipesAdapter = recipeListViewAdapter(recipes)
+        recipesAdapter.listener = object : OnRecipeClickListener {
+            override fun onRecipeClick(recipe: Recipe, position: Int) {
+                onRecipeClickAction(recipe, position)
+            }
+        }
         recipesRecycler.adapter = recipesAdapter
     }
 
@@ -88,5 +100,9 @@ class RecipesFeedFragment : Fragment() {
 
         recipesCountView?.text = "${filtered.size} Recipes"
         recipesAdapter.updateList(filtered)
+    }
+
+    private fun onRecipeClickAction(recipe: Recipe, position: Int) {
+        findNavController().navigate(R.id.action_RecipesFeed_to_ViewRecipe)
     }
 }

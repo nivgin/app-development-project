@@ -7,7 +7,11 @@
     <fragment android:id="@+id/RecipesFeed"
         android:name="com.example.recipease.features.recipes_feed.RecipesFeedFragment"
         android:label="Recipes Feed"
-        tools:layout="@layout/fragment_recipes_feed" />
+        tools:layout="@layout/fragment_recipes_feed">
+        <action
+            android:id="@+id/action_RecipesFeed_to_ViewRecipe"
+            app:destination="@id/ViewRecipe" />
+    </fragment>
     <fragment android:id="@+id/ProfilePage"
         android:name="com.example.recipease.features.ProfilePage"
         android:label="Profile Page"
@@ -16,4 +20,9 @@
         android:name="com.example.recipease.features.add_recipe.AddRecipeFragment"
         android:label="Add Recipe"
         tools:layout="@layout/fragment_add_recipe" />
+    <fragment android:id="@+id/ViewRecipe"
+        android:name="com.example.recipease.features.ViewRecipe"
+        android:label="View Recipe"
+        tools:layout="@layout/fragment_view_recipe">
+    </fragment>
 </navigation>

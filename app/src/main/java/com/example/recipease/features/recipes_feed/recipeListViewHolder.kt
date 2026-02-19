@@ -3,7 +3,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemRecipeCardBinding
 import com.example.recipease.model.Recipe
 
-class recipeListViewHolder (private var binding: ItemRecipeCardBinding) : RecyclerView.ViewHolder(binding.root) {
+class recipeListViewHolder (
+    private var binding: ItemRecipeCardBinding,
+    private val listener: OnRecipeClickListener?
+) : RecyclerView.ViewHolder(binding.root) {
     private var recipe: Recipe? = null
 
     fun bind(recipe: Recipe, position: Int) {
@@ -13,5 +16,12 @@ class recipeListViewHolder (private var binding: ItemRecipeCardBinding) : Recycl
         binding.recipeTime.text = recipe.time
         binding.recipeDifficulty.text = recipe.difficulty
         binding.recipeAuthor.text = recipe.author
+
+        binding.root.setOnClickListener {
+
+            recipe.let { recipe ->
+                listener?.onRecipeClick(recipe, position)
+            }
+        }
     }
 }
