@@ -1,5 +1,6 @@
 package com.example.recipease
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.MenuItem
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private fun overrideCenterIcon(navbar: BottomNavigationView) {
         val menuView = navbar.getChildAt(0).safeCast<BottomNavigationMenuView>() ?: return
         val targetItem = menuView.children

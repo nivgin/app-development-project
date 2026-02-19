@@ -1,4 +1,4 @@
-package com.example.recipease.fragments.recipesFeed
+package com.example.recipease.features.recipes_feed
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,7 +14,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 
-class RecipesFeed : Fragment() {
+class RecipesFeedFragment : Fragment() {
     private lateinit var recipesAdapter: recipeListViewAdapter
     val tags = listOf(
         "Burgers", "Italian", "Dessert", "Vegan", "Asian",

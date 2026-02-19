@@ -22,26 +22,67 @@
             android:padding="20dp">
 
             <!-- Image Picker -->
-            <ImageView
-                android:id="@+id/recipeImage"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/photoPicker"
                 android:layout_width="0dp"
                 android:layout_height="220dp"
-                android:background="#E0E0E0"
-                android:scaleType="centerCrop"
-                android:contentDescription="Add Photo"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="@drawable/bg_dashed_border"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="40dp"
-                android:adjustViewBounds="true"
-                android:cropToPadding="true"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintDimensionRatio="1.8" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- The actual image (will be replaced when user picks a photo) -->
+                <ImageView
+                    android:id="@+id/ivPhoto"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Placeholder overlay -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/placeholder"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <ImageView
+                        android:id="@+id/ivCamera"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_camera"
+                        app:tint="@color/gray_text"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/tvAddPhoto"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"/>
+
+                    <TextView
+                        android:id="@+id/tvAddPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add photo"
+                        android:textColor="@color/gray_text"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toBottomOf="@id/ivCamera"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <!-- Title Label -->
             <TextView
@@ -52,7 +93,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@id/recipeImage"
+                app:layout_constraintTop_toBottomOf="@id/photoPicker"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <!-- Title -->
@@ -95,6 +136,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <!-- Description Label -->
+            <TextView
+                android:id="@+id/tagsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tags"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/recipeDescription"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Tags Recycler -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tagsRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/tagsLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <!-- Cook Time Label -->
             <TextView
                 android:id="@+id/cookTimeLabel"
@@ -104,7 +168,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@id/recipeDescription"
+                app:layout_constraintTop_toBottomOf="@id/tagsRecycler"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <!-- Servings Label -->
@@ -116,7 +180,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@id/recipeDescription"
+                app:layout_constraintTop_toBottomOf="@id/tagsRecycler"
                 app:layout_constraintStart_toStartOf="@id/servings" />
 
             <!-- Difficulty Label -->
@@ -128,7 +192,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@id/recipeDescription"
+                app:layout_constraintTop_toBottomOf="@id/tagsRecycler"
                 app:layout_constraintStart_toStartOf="@id/difficultyLayout" />
 
             <!-- Cook Time -->

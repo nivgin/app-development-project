@@ -1,4 +1,4 @@
-package com.example.recipease.fragments.recipesFeed
+package com.example.recipease.features.recipes_feed
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemTagBinding
