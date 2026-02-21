@@ -18,34 +18,26 @@ class IngredientsViewHolder(
         binding.etAmount.setText(ingredient.amount)
         binding.etIngredient.setText(ingredient.name)
 
-        setupChangeListener(binding.etAmount, ingredient, onChanged) { ing, text ->
-            ing.copy(amount = text)
+        binding.etAmount.addTextChangedListener { text ->
+            val pos = bindingAdapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                ingredient.amount = text?.toString().orEmpty()
+                onChanged(pos, ingredient)
+            }
         }
 
-        setupChangeListener(binding.etIngredient, ingredient, onChanged) { ing, text ->
-            ing.copy(name = text)
+        binding.etIngredient.addTextChangedListener { text ->
+            val pos = bindingAdapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                ingredient.name = text?.toString().orEmpty()
+                onChanged(pos, ingredient)
+            }
         }
 
         binding.btnDelete.setOnClickListener {
             val pos = bindingAdapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 onDelete(pos)
-            }
-        }
-    }
-
-    private fun setupChangeListener(
-        editText: EditText,
-        ingredient: Ingredient,
-        onChanged: (Int, Ingredient) -> Unit,
-        update: (Ingredient, String) -> Ingredient
-    ) {
-        editText.addTextChangedListener { editable ->
-            val pos = bindingAdapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
-                val newText = editable?.toString().orEmpty()
-                val updatedIngredient = update(ingredient, newText)
-                onChanged(pos, updatedIngredient)
             }
         }
     }

@@ -37,24 +37,16 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_navhost_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        val navbar = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-
         setSupportActionBar(findViewById(R.id.toolbar))
-
         val appBarConfiguration = AppBarConfiguration( setOf( R.id.RecipesFeed, R.id.ProfilePage ) )
-
         NavigationUI.setupActionBarWithNavController(this, navController)
-        NavigationUI.setupWithNavController(navbar, navController)
-
-        navbar.setOnApplyWindowInsetsListener(null)
-        navbar.setPadding(0,0,0,0)
-
-        overrideCenterIcon(navbar)
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+        binding.bottomNavigationView.setOnApplyWindowInsetsListener(null)
+        binding.bottomNavigationView.setPadding(0,0,0,0)
+        overrideCenterIcon(binding.bottomNavigationView)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val navbar = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-
-            navbar.visibility =
+            binding.bottomNavigationView.visibility =
                 if (destination.id !in appBarConfiguration.topLevelDestinations) View.GONE else View.VISIBLE
 
             binding.toolbar.visibility =
