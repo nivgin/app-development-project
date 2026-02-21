@@ -1,10 +1,13 @@
 package com.example.recipease.model
 
 import android.content.Context
+import android.os.Parcelable
 import com.example.recipease.base.RecipeaseApp
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Recipe (
     val id: String,
     val name: String,
@@ -19,7 +22,7 @@ data class Recipe (
     val pictureUrl: String?,
     val notes: String,
     val lastUpdated: Long?
-) {
+) : Parcelable {
     companion object {
 
         var lastUpdated: Long
@@ -62,7 +65,12 @@ data class Recipe (
             val difficulty = json[DIFFICULTY_KEY] as String
             val tags = json[TAGS_KEY] as List<String>
             val steps = json[STEPS_KEY] as List<String>
-            val ingredients = json[INGREDIENTS_KEY] as List<Ingredient>
+            val ingredients = (json[INGREDIENTS_KEY] as List<Map<String, Any>>).map {
+                Ingredient(
+                    amount = it["amount"] as String,
+                    name = it["name"] as String
+                )
+            }
             val timestamp = json[LAST_UPDATED_KEY] as? Timestamp
             val notes = json[NOTES_KEY] as String
             val lastUpdatedLong = timestamp?.toDate()?.time
