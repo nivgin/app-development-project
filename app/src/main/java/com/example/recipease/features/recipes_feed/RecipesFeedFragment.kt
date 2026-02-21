@@ -86,6 +86,9 @@ class RecipesFeedFragment : Fragment() {
         recipesAdapter.updateList(filtered)
     }
     private fun onRecipeClickAction(recipe: Recipe, position: Int) {
-        findNavController().navigate(R.id.action_RecipesFeed_to_ViewRecipe)
+        val action = RecipesFeedFragmentDirections
+            .actionRecipesFeedToViewRecipe(recipe)
+
+        findNavController().navigate(action)
     }
 }
