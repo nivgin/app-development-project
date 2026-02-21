@@ -97,6 +97,7 @@ class AddRecipeFragment : Fragment() {
                 name = binding.recipeTitle.text.toString(),
                 description = binding.recipeDescription.text.toString(),
                 time = binding.cookTime.text.toString(),
+                servings = binding.servings.text.toString().toIntOrNull() ?: 0,
                 difficulty = binding.difficulty.text.toString(),
                 userId = "User (change when we have auth)",
                 tags = recipeTags,

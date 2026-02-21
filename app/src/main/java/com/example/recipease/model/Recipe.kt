@@ -11,7 +11,7 @@ data class Recipe (
     val description: String,
     val time: String,
     val difficulty: String,
-<<<<<<< HEAD
+    val servings: Int,
     val userId: String,
     val tags: List<String>,
     val steps: List<String>,
@@ -40,6 +40,7 @@ data class Recipe (
         const val NAME_KEY = "name"
         const val DESCRIPTION_KEY = "description"
         const val TIME_KEY = "time"
+        const val SERVINGS_KEY = "servings"
         const val DIFFICULTY_KEY = "difficulty"
         const val USERID_KEY = "userId"
         const val TAGS_KEY = "tags"
@@ -56,6 +57,7 @@ data class Recipe (
             val description = json[DESCRIPTION_KEY] as String
             val pictureUrl = json[PICTURE_URL_KEY] as String
             val time = json[TIME_KEY] as String
+            val servings = (json["servings"] as? Long)?.toInt() ?: 0
             val userId = json[USERID_KEY] as String
             val difficulty = json[DIFFICULTY_KEY] as String
             val tags = json[TAGS_KEY] as List<String>
@@ -71,6 +73,7 @@ data class Recipe (
                 description = description,
                 pictureUrl = pictureUrl,
                 time = time,
+                servings = servings,
                 userId = userId,
                 difficulty = difficulty,
                 tags = tags,
@@ -88,6 +91,7 @@ data class Recipe (
             NAME_KEY to name,
             DESCRIPTION_KEY to description,
             TIME_KEY to time,
+            SERVINGS_KEY to servings,
             DIFFICULTY_KEY to difficulty,
             USERID_KEY to userId,
             TAGS_KEY to tags,
@@ -98,12 +102,3 @@ data class Recipe (
             LAST_UPDATED_KEY to FieldValue.serverTimestamp()
         )
 }
-=======
-    val servings: String,
-    val notes: String,
-    var author: String,
-    var tags: List<String>,
-    var ingredients: List<Ingredient>,
-    var steps: List<String>
-)
->>>>>>> b81315cb04573b0502244434b2e76f1d99980312

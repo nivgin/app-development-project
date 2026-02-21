@@ -16,21 +16,18 @@ class recipeListViewHolder (
         binding.recipeDescription.text = recipe.description
         binding.recipeTime.text = recipe.time
         binding.recipeDifficulty.text = recipe.difficulty
-<<<<<<< HEAD
         binding.recipeAuthor.text = recipe.userId
         recipe.pictureUrl?.let {
             if (it.isNotBlank()) {
                 Picasso.get()
                     .load(it)
                     .into(binding.recipeImage)
-=======
-        binding.recipeAuthor.text = recipe.author
 
-        binding.root.setOnClickListener {
-
-            recipe.let { recipe ->
-                listener?.onRecipeClick(recipe, position)
->>>>>>> b81315cb04573b0502244434b2e76f1d99980312
+            binding.root.setOnClickListener {
+                    recipe.let { recipe ->
+                        listener?.onRecipeClick(recipe, position)
+                    }
+                }
             }
         }
     }
