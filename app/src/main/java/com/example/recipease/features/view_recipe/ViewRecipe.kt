@@ -28,23 +28,14 @@ class ViewRecipe : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         currentRecipe = Recipe(
-<<<<<<< HEAD
             id = "asdasd",
-=======
->>>>>>> b81315cb04573b0502244434b2e76f1d99980312
             name = "Creamy Garlic Pasta",
             description = "A rich and silky pasta tossed in a velvety garlic‑parmesan sauce.",
             time = "25 min",
             difficulty = "Easy",
-<<<<<<< HEAD
             servings = 4,
             notes = "Don't make the sauce too thick!",
             userId = "Sofia Bennett",
-=======
-            servings = "4",
-            notes = "Don't make the sauce too thick!",
-            author = "Sofia Bennett",
->>>>>>> b81315cb04573b0502244434b2e76f1d99980312
             tags = listOf("Italian", "Pasta"),
             ingredients = listOf(
                 Ingredient("400g", "Pasta"),
@@ -61,13 +52,9 @@ class ViewRecipe : Fragment() {
                 "Add grated parmesan cheese and stir until melted and smooth.",
                 "Drain pasta and add to the sauce. Toss well to coat evenly.",
                 "Season with salt and pepper to taste. Serve immediately with extra parmesan on top."
-<<<<<<< HEAD
             ),
             pictureUrl = "",
             lastUpdated = 0L,
-=======
-            )
->>>>>>> b81315cb04573b0502244434b2e76f1d99980312
         )
 
         // Populate recipe details
@@ -81,17 +68,10 @@ class ViewRecipe : Fragment() {
     private fun populateRecipeDetails() {
         binding.viewRecipeTitle.text = currentRecipe.name
         binding.viewRecipeDescription.text = currentRecipe.description
-<<<<<<< HEAD
         binding.viewRecipeAuthor.text = currentRecipe.userId
         binding.viewRecipeTime.text = currentRecipe.time
         binding.viewRecipeDifficulty.text = currentRecipe.difficulty
         binding.viewRecipeServings.text = currentRecipe.servings.toString()
-=======
-        binding.viewRecipeAuthor.text = currentRecipe.author
-        binding.viewRecipeTime.text = currentRecipe.time
-        binding.viewRecipeDifficulty.text = currentRecipe.difficulty
-        binding.viewRecipeServings.text = currentRecipe.servings
->>>>>>> b81315cb04573b0502244434b2e76f1d99980312
         binding.viewRecipeNotes.text = currentRecipe.notes
     }
 

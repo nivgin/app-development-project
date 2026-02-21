@@ -11,7 +11,6 @@ data class Recipe (
     val description: String,
     val time: String,
     val difficulty: String,
-<<<<<<< HEAD
     val servings: Int,
     val userId: String,
     val tags: List<String>,
@@ -103,12 +102,3 @@ data class Recipe (
             LAST_UPDATED_KEY to FieldValue.serverTimestamp()
         )
 }
-=======
-    val servings: String,
-    val notes: String,
-    var author: String,
-    var tags: List<String>,
-    var ingredients: List<Ingredient>,
-    var steps: List<String>
-)
->>>>>>> b81315cb04573b0502244434b2e76f1d99980312
