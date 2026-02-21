@@ -6,11 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemRecipeCardBinding
 import com.example.recipease.model.Recipe
 
-class recipeListViewAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<recipeListViewHolder>() {
+interface OnRecipeClickListener {
+    fun onRecipeClick(recipe: Recipe, position: Int)
+}
+
+class recipeListViewAdapter(
+    private var recipes: List<Recipe>,
+) : RecyclerView.Adapter<recipeListViewHolder>() {
+    var listener: OnRecipeClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): recipeListViewHolder {
         val binding = ItemRecipeCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return recipeListViewHolder(binding)
+        return recipeListViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: recipeListViewHolder, position: Int) {
