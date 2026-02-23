@@ -17,7 +17,6 @@ class LoginPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginPageBinding.inflate(inflater, container, false)
-        binding.filler.bringToFront()
 
         return binding.root
     }
