@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".features.ProfilePage">
+    tools:context=".features.profile_page.ProfilePage">
 
     <TextView
         android:id="@+id/profileTitle"
@@ -21,7 +21,7 @@
         android:id="@+id/profileCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,6 +34,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/circle_mask"
                 android:contentDescription="Profile Picture"
                 android:scaleType="centerCrop"
@@ -46,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="4dp"
                 android:text="User Name"
                 android:textSize="18sp"
@@ -83,6 +84,10 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                app:icon="@drawable/edit_24px"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@color/white"
                 app:backgroundTint="@null"
                 app:cornerRadius="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -103,7 +108,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        app:drawableStartCompat="@drawable/view_cozy_24px"
+        android:drawablePadding="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myRecipesRecycler"
