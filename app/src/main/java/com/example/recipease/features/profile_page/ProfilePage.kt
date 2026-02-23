@@ -17,13 +17,13 @@ class ProfilePage : Fragment() {
     private lateinit var profileRecipeAdapter: ProfileRecipeViewAdapter
 
     private val mockRecipes = listOf(
-        Recipe("Chocolate Cake", "", "", "", "", "", "", emptyList(), emptyList(), emptyList()),
-        Recipe("Pasta Carbonara", "", "", "", "", "", "", emptyList(), emptyList(), emptyList()),
-        Recipe("Greek Salad", "", "", "", "", "", "", emptyList(), emptyList(), emptyList()),
-        Recipe("Chicken Tikka", "", "", "", "", "", "", emptyList(), emptyList(), emptyList()),
-        Recipe("Beef Tacos", "", "", "", "", "", "", emptyList(), emptyList(), emptyList()),
-        Recipe("Sushi Rolls", "", "", "", "", "", "", emptyList(), emptyList(), emptyList()),
-        Recipe("Banana Bread", "", "", "", "", "", "", emptyList(), emptyList(), emptyList())
+        Recipe("Chocolate Cake", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
+        Recipe("Pasta Carbonara", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
+        Recipe("Greek Salad", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
+        Recipe("Chicken Tikka", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
+        Recipe("Beef Tacos", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
+        Recipe("Sushi Rolls", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
+        Recipe("Banana Bread", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

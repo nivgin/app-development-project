@@ -83,4 +83,5 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.cloudinary:cloudinary-android:2.3.1")
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.google.android.material:material:1.12.0")
 }

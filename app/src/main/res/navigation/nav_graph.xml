@@ -29,5 +29,10 @@
             android:name="recipe"
             app:argType="com.example.recipease.model.Recipe" />
     </fragment>
+    <fragment
+        android:id="@+id/LoginPage"
+        android:label="Login Page"
+        android:name="com.example.recipease.features.login_page.LoginPageFragment">
+    </fragment>
 
 </navigation>
