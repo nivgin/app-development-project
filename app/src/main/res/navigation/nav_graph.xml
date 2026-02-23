@@ -13,7 +13,7 @@
             app:destination="@id/ViewRecipe" />
     </fragment>
     <fragment android:id="@+id/ProfilePage"
-        android:name="com.example.recipease.features.ProfilePage"
+        android:name="com.example.recipease.features.profile_page.ProfilePage"
         android:label="Profile Page"
         tools:layout="@layout/fragment_profile_page" />
     <fragment android:id="@+id/AddRecipe"
