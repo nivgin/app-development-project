@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 if (destination.id !in appBarConfiguration.topLevelDestinations) View.GONE else View.VISIBLE
 
             binding.toolbar.visibility =
-                if (destination.id in appBarConfiguration.topLevelDestinations) View.GONE else View.VISIBLE
+                if (destination.id in appBarConfiguration.topLevelDestinations || destination.id == R.id.LoginPage) View.GONE else View.VISIBLE
         }
     }
 

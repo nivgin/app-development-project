@@ -9,4 +9,8 @@
     <string name="discover_recipes">Discover Recipes</string>
     <string name="hello_username">Hello, User 👋</string>
     <string name="all_recipes">All Recipes</string>
+    <string name="app_desc"><![CDATA[Share, discover & cook amazing recipes]]></string>
+    <string name="app_title">Recip-Ease</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
 </resources>
