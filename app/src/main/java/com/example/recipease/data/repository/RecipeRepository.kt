@@ -1,7 +1,6 @@
 package com.example.recipease.data.repository
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.recipease.data.models.FirebaseModel
 import com.example.recipease.model.Recipe
@@ -47,7 +46,7 @@ class RecipeRepository private constructor() {
 
     fun addRecipe(recipe: Recipe, recipeImage: Bitmap, completion: () -> Unit) {
         firebaseModel.addRecipe(recipe) {
-            StorageModel.uploadRecipeImage(recipe, recipeImage) {
+            StorageModel.uploadImage(recipe, recipeImage) {
                 pictureUrl ->
                 if (!pictureUrl.isNullOrEmpty()) {
                     val recipeCopy = recipe.copy(pictureUrl = pictureUrl)

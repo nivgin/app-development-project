@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/RecipesFeed">
+    app:startDestination="@id/LoginPage">
     <fragment android:id="@+id/RecipesFeed"
         android:name="com.example.recipease.features.recipes_feed.RecipesFeedFragment"
         android:label="Recipes Feed"
@@ -33,6 +33,9 @@
         android:id="@+id/LoginPage"
         android:label="Login Page"
         android:name="com.example.recipease.features.login_page.LoginPageFragment">
+        <action
+            android:id="@+id/action_LoginPage_to_RecipesFeed"
+            app:destination="@id/RecipesFeed" />
     </fragment>
 
 </navigation>

@@ -11,7 +11,7 @@ interface OnRecipeClickListener {
 }
 
 class recipeListViewAdapter(
-    private var recipes: List<Recipe>,
+    private var recipes: List<RecipeWithUser>,
 ) : RecyclerView.Adapter<recipeListViewHolder>() {
     var listener: OnRecipeClickListener? = null
 
@@ -28,7 +28,7 @@ class recipeListViewAdapter(
         return recipes.size
     }
 
-    fun updateList(newList: List<Recipe>) {
+    fun updateList(newList: List<RecipeWithUser>) {
         recipes = newList
         notifyDataSetChanged()
     }
