@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemTagBinding
 
 class tagsViewAdapter(
-    private val tags: List<String>,
+    private var tags: List<String>,
     private val onSelectionChanged: (Set<String>) -> Unit
 ) : RecyclerView.Adapter<tagsViewHolder>() {
 
@@ -30,6 +30,21 @@ class tagsViewAdapter(
     }
 
     override fun getItemCount(): Int = tags.size
+
+    fun updateList(newTags: List<String>) {
+        tags = newTags
+        notifyDataSetChanged()
+    }
+
+    fun updateSelected(selectedTags: Set<String>) {
+        selected.clear()
+        // Convert selected tag names to their positions
+        selectedTags.forEach { tagName ->
+            val index = tags.indexOf(tagName)
+            if (index >= 0) selected.add(index)
+        }
+        notifyDataSetChanged()
+    }
 }
 
 

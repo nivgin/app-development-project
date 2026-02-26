@@ -11,7 +11,7 @@ interface OnRecipeClickListener {
 }
 
 class recipeListViewAdapter(
-    private var recipes: List<Recipe>,
+    private var recipes: List<Recipe>?,
 ) : RecyclerView.Adapter<recipeListViewHolder>() {
     var listener: OnRecipeClickListener? = null
 
@@ -21,11 +21,11 @@ class recipeListViewAdapter(
     }
 
     override fun onBindViewHolder(holder: recipeListViewHolder, position: Int) {
-        recipes.let { holder.bind(it[position], position) }
+        recipes?.let { holder.bind(it[position], position) }
     }
 
     override fun getItemCount(): Int {
-        return recipes.size
+        return recipes?.size ?: 0
     }
 
     fun updateList(newList: List<Recipe>) {

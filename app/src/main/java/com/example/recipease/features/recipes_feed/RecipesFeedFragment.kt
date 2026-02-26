@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.recipease.R
 import com.example.recipease.databinding.FragmentRecipesFeedBinding
 import com.example.recipease.model.Recipe
 import com.google.android.flexbox.FlexDirection
@@ -18,7 +17,14 @@ import com.google.android.flexbox.FlexboxLayoutManager
 class RecipesFeedFragment : Fragment() {
     private lateinit var binding: FragmentRecipesFeedBinding
     private lateinit var recipesAdapter: recipeListViewAdapter
+    private lateinit var tagsAdapter: tagsViewAdapter
     private val viewModel: RecipesFeedViewModel by viewModels()
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshRecipes()
+        viewModel.refreshTags()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,18 +38,19 @@ class RecipesFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadRecipes()
-        viewModel.loadTags()
-
         binding.tagsRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
             flexDirection = FlexDirection.ROW
             flexWrap = FlexWrap.WRAP
         }
         binding.tagsRecycler.isNestedScrollingEnabled = false
+        tagsAdapter = tagsViewAdapter(emptyList()) { selectedTags ->
+            viewModel.filterRecipesByTag(selectedTags)
+        }
+        binding.tagsRecycler.adapter = tagsAdapter
 
         binding.RecipesRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.RecipesRecycler.isNestedScrollingEnabled = false
-        recipesAdapter = recipeListViewAdapter(listOf())
+        recipesAdapter = recipeListViewAdapter(emptyList())
         binding.RecipesRecycler.adapter = recipesAdapter
         recipesAdapter.listener = object : OnRecipeClickListener {
             override fun onRecipeClick(recipe: Recipe, position: Int) {
@@ -56,35 +63,23 @@ class RecipesFeedFragment : Fragment() {
     }
 
     private fun observeRecipes() {
-        viewModel.recipes.observe(viewLifecycleOwner) { list ->
+        viewModel.displayedRecipes.observe(viewLifecycleOwner) { list ->
             recipesAdapter.updateList(list)
+            binding.titleAllRecipes.text = if (viewModel.currentSelectedTags.isNotEmpty()) {
+                "${list.size} Recipes"
+            } else {
+                "All Recipes"
+            }
         }
     }
 
     private fun observeTags() {
         viewModel.tags.observe(viewLifecycleOwner) { tagList ->
-            binding.tagsRecycler.adapter = tagsViewAdapter(tagList) { selectedTags ->
-                filterRecipes(selectedTags)
-            }
+            tagsAdapter.updateList(tagList)
+            tagsAdapter.updateSelected(viewModel.currentSelectedTags)
         }
     }
 
-    private fun filterRecipes(selectedTags: Set<String>) {
-        val allRecipes = viewModel.recipes.value ?: emptyList()
-
-        if (selectedTags.isEmpty()) {
-            binding.titleAllRecipes.text = "All Recipes"
-            recipesAdapter.updateList(allRecipes)
-            return
-        }
-
-        val filtered = allRecipes.filter { recipe ->
-            selectedTags.all { tag -> recipe.tags.contains(tag) }
-        }
-
-        binding.titleAllRecipes.text = "${filtered.size} Recipes"
-        recipesAdapter.updateList(filtered)
-    }
     private fun onRecipeClickAction(recipe: Recipe, position: Int) {
         val action = RecipesFeedFragmentDirections
             .actionRecipesFeedToViewRecipe(recipe)

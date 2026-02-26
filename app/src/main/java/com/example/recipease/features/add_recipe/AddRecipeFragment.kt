@@ -56,7 +56,7 @@ class AddRecipeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.loadTags()
+        viewModel.refreshTags()
 
         super.onViewCreated(view, savedInstanceState)
 

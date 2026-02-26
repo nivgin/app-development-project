@@ -12,8 +12,7 @@ import com.example.recipease.model.Recipe
 interface RecipeDao {
 
     @Query("SELECT * FROM Recipe")
-    fun getAllRecipes(): LiveData<MutableList<Recipe>>
-
+    fun getAllRecipes(): LiveData<List<Recipe>>
     @Query("SELECT * FROM Recipe WHERE id = :id")
     fun getRecipeById(id: String): Recipe
 

@@ -7,6 +7,7 @@ import com.example.recipease.model.Recipe
 import com.example.recipease.model.Tags
 
 @Database(entities = [Recipe::class, Tags::class], version = 4)
+@TypeConverters(Converters::class)
 abstract class AppLocalDbRepository: RoomDatabase() {
     abstract val recipeDao: RecipeDao
     abstract val tagsDao: TagsDao
