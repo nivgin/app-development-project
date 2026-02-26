@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.recipease.data.models.FirebaseAuthModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -37,6 +38,11 @@ class ProfilePage : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentProfilePageBinding.inflate(inflater, container, false)
         setupRecipeRecyclerView()
+
+        binding.editProfileBtn.setOnClickListener {
+            FirebaseAuthModel.shared.signOut()
+        }
+
         return binding.root
     }
 

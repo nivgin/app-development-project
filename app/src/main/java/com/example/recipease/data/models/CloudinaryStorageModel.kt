@@ -8,34 +8,25 @@ import com.cloudinary.android.callback.UploadCallback
 import com.cloudinary.android.policy.GlobalUploadPolicy
 import com.cloudinary.android.policy.UploadPolicy
 import com.example.recipease.base.RecipeaseApp
-import com.example.recipease.model.Recipe
+import com.example.recipease.base.Constants
 import com.example.recipease.BuildConfig
+import com.example.recipease.base.Identifiable
 import java.io.File
 
 class CloudinaryStorageModel {
 
-    init {
-        val config = mapOf(
-            "cloud_name" to BuildConfig.CLOUDINARY_CLOUD_NAME,
-            "api_key" to BuildConfig.CLOUDINARY_API_KEY,
-            "api_secret" to BuildConfig.CLOUDINARY_API_SECRET
-        )
-
-        RecipeaseApp.appContext?.let {
-            MediaManager.init(it, config)
-            MediaManager.get().globalUploadPolicy = GlobalUploadPolicy.Builder()
-                .maxConcurrentRequests(3)
-                .networkPolicy(UploadPolicy.NetworkType.UNMETERED)
-                .build()
-        }
-    }
-
-    fun uploadRecipeImage(recipe: Recipe, image: Bitmap, completion: (String?) -> Unit) {
+    fun uploadImage(
+        model: Identifiable,
+        image: Bitmap,
+        completion: (String?) -> Unit
+    ) {
         val context = RecipeaseApp.appContext ?: return
         val file = bitmapToFile(image, context)
 
+        val folderName = Constants.folderFor(model)
+
         MediaManager.get().upload(file.path)
-            .option("folder", "recipes/${recipe.id}")
+            .option("folder", "$folderName/${model.id}")
             .callback(object : UploadCallback {
                 override fun onStart(requestId: String) {}
 

@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipease.R
+import com.example.recipease.data.models.FirebaseAuthModel
+import com.example.recipease.data.repository.UserRepository
 import com.example.recipease.databinding.FragmentRecipesFeedBinding
 import com.example.recipease.model.Recipe
 import com.google.android.flexbox.FlexDirection
@@ -32,7 +34,7 @@ class RecipesFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadRecipes()
+        viewModel.loadFeed()
         viewModel.loadTags()
 
         binding.tagsRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
@@ -53,10 +55,11 @@ class RecipesFeedFragment : Fragment() {
 
         observeRecipes()
         observeTags()
+        observeUser()
     }
 
     private fun observeRecipes() {
-        viewModel.recipes.observe(viewLifecycleOwner) { list ->
+        viewModel.feed.observe(viewLifecycleOwner) { list ->
             recipesAdapter.updateList(list)
         }
     }
@@ -69,17 +72,23 @@ class RecipesFeedFragment : Fragment() {
         }
     }
 
+    private fun observeUser() {
+        viewModel.connectedUser.observe(viewLifecycleOwner) { user ->
+            binding.greetUser.text = "Hello, ${user?.displayName} \uD83D\uDC4B"
+        }
+    }
+
     private fun filterRecipes(selectedTags: Set<String>) {
-        val allRecipes = viewModel.recipes.value ?: emptyList()
+        val feed = viewModel.feed.value ?: emptyList()
 
         if (selectedTags.isEmpty()) {
             binding.titleAllRecipes.text = "All Recipes"
-            recipesAdapter.updateList(allRecipes)
+            recipesAdapter.updateList(feed)
             return
         }
 
-        val filtered = allRecipes.filter { recipe ->
-            selectedTags.all { tag -> recipe.tags.contains(tag) }
+        val filtered = feed.filter { post ->
+            selectedTags.all { tag -> post.recipe.tags.contains(tag) }
         }
 
         binding.titleAllRecipes.text = "${filtered.size} Recipes"

@@ -14,6 +14,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.example.recipease.data.models.FirebaseAuthModel
+import com.example.recipease.data.repository.UserRepository
 import com.example.recipease.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         setSupportActionBar(findViewById(R.id.toolbar))
         val appBarConfiguration = AppBarConfiguration( setOf( R.id.RecipesFeed, R.id.ProfilePage ) )
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
         binding.bottomNavigationView.setOnApplyWindowInsetsListener(null)
@@ -51,6 +54,17 @@ class MainActivity : AppCompatActivity() {
 
             binding.toolbar.visibility =
                 if (destination.id in appBarConfiguration.topLevelDestinations || destination.id == R.id.LoginPage) View.GONE else View.VISIBLE
+        }
+
+        val connected = FirebaseAuthModel.shared.isLoggedIn()
+
+        if (connected) {
+            val id = FirebaseAuthModel.shared.getCurrentUserId()
+
+            if (id != null) {
+                FirebaseAuthModel.shared.populateUser(id)
+                navGraph.setStartDestination(R.id.RecipesFeed)
+            }
         }
     }
 
