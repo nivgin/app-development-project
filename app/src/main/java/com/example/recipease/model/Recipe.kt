@@ -2,19 +2,15 @@ package com.example.recipease.model
 
 import android.content.Context
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.example.recipease.base.Identifiable
 import com.example.recipease.base.RecipeaseApp
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity
 data class Recipe (
-    @PrimaryKey
-    val id: String,
-
+    override val id: String,
     val name: String,
     val description: String,
     val time: String,
@@ -27,7 +23,7 @@ data class Recipe (
     val pictureUrl: String?,
     val notes: String,
     val lastUpdated: Long?
-) : Parcelable {
+) : Parcelable, Identifiable {
     companion object {
 
         var lastUpdated: Long

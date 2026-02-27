@@ -10,14 +10,21 @@ class recipeListViewHolder (
 ) : RecyclerView.ViewHolder(binding.root) {
     private var recipe: Recipe? = null
 
-    fun bind(recipe: Recipe, position: Int) {
-        this.recipe = recipe
-        binding.recipeTitle.text = recipe.name
-        binding.recipeDescription.text = recipe.description
-        binding.recipeTime.text = recipe.time
-        binding.recipeDifficulty.text = recipe.difficulty
-        binding.recipeAuthor.text = recipe.userId
-        recipe.pictureUrl?.let {
+    fun bind(post: RecipeWithUser, position: Int) {
+        this.recipe = post.recipe
+        binding.recipeTitle.text = post.recipe.name
+        binding.recipeDescription.text = post.recipe.description
+        binding.recipeTime.text = post.recipe.time
+        binding.recipeDifficulty.text = post.recipe.difficulty
+        binding.recipeAuthor.text = post.user?.displayName
+        post.user?.profilePictureUrl?.let {
+            if (it.isNotBlank()) {
+                Picasso.get()
+                    .load(it)
+                    .into(binding.authorImage)
+            }
+        }
+        post.recipe.pictureUrl?.let {
             if (it.isNotBlank()) {
                 Picasso.get()
                     .load(it)
@@ -25,7 +32,7 @@ class recipeListViewHolder (
 
             binding.root.setOnClickListener {
                     recipe.let { recipe ->
-                        listener?.onRecipeClick(recipe, position)
+                        listener?.onRecipeClick(post.recipe, position)
                     }
                 }
             }

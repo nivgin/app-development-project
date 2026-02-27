@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.recipease.data.models.FirebaseAuthModel
 import com.example.recipease.data.repository.RecipeRepository
 import com.example.recipease.databinding.FragmentAddRecipeBinding
 import com.example.recipease.features.recipes_feed.tagsViewAdapter
@@ -99,7 +100,7 @@ class AddRecipeFragment : Fragment() {
                 time = binding.cookTime.text.toString(),
                 servings = binding.servings.text.toString().toIntOrNull() ?: 0,
                 difficulty = binding.difficulty.text.toString(),
-                userId = "User (change when we have auth)",
+                userId = FirebaseAuthModel.shared.getCurrentUserId().toString(),
                 tags = recipeTags,
                 steps = recipeSteps,
                 ingredients = recipeIngredients,

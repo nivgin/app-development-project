@@ -46,7 +46,7 @@ class RecipeRepository private constructor() {
 
     fun addRecipe(recipe: Recipe, recipeImage: Bitmap, completion: () -> Unit) {
         firebaseModel.addRecipe(recipe) {
-            StorageModel.uploadRecipeImage(recipe, recipeImage) {
+            StorageModel.uploadImage(recipe, recipeImage) {
                 pictureUrl ->
                 if (!pictureUrl.isNullOrEmpty()) {
                     val recipeCopy = recipe.copy(pictureUrl = pictureUrl)
