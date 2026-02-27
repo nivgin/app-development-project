@@ -6,11 +6,14 @@ import com.example.recipease.base.Identifiable
 import com.example.recipease.base.RecipeaseApp
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
+@Entity
 @Parcelize
 data class User(
-    override var id: String,
+    @PrimaryKey override var id: String,
     val displayName: String,
     val profilePictureUrl: String?,
     val lastUpdated: Long?

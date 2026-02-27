@@ -1,6 +1,7 @@
 package com.example.recipease.data.models
 
 import android.graphics.Bitmap
+import androidx.lifecycle.MutableLiveData
 import com.example.recipease.data.repository.UserRepository
 import com.example.recipease.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -47,15 +48,12 @@ class FirebaseAuthModel {
     }
 
     fun populateUser(id: String) {
-        UserRepository.shared.getAllUsers()
-        UserRepository.shared.getUserById(id) { user ->
-                UserRepository.shared.connectedUser = user
-        }
+        UserRepository.shared.refreshUsers()
+        UserRepository.shared.connectedUser = UserRepository.shared.getUserById(id)
     }
-
 
     fun signOut() {
         auth.signOut()
-        UserRepository.shared.connectedUser = null
+        UserRepository.shared.connectedUser = MutableLiveData(null)
     }
 }

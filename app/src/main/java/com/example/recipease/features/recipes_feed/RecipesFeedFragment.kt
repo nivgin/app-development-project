@@ -24,6 +24,7 @@ class RecipesFeedFragment : Fragment() {
         super.onResume()
         viewModel.refreshRecipes()
         viewModel.refreshTags()
+        viewModel.refreshUsers()
     }
 
     override fun onCreateView(
@@ -44,7 +45,7 @@ class RecipesFeedFragment : Fragment() {
         }
         binding.tagsRecycler.isNestedScrollingEnabled = false
         tagsAdapter = tagsViewAdapter(emptyList()) { selectedTags ->
-            viewModel.filterRecipesByTag(selectedTags)
+            viewModel.processRecipes(selectedTags)
         }
         binding.tagsRecycler.adapter = tagsAdapter
 

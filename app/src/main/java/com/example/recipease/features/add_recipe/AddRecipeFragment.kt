@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipease.data.models.FirebaseAuthModel
@@ -100,7 +101,7 @@ class AddRecipeFragment : Fragment() {
                 time = binding.cookTime.text.toString(),
                 servings = binding.servings.text.toString().toIntOrNull() ?: 0,
                 difficulty = binding.difficulty.text.toString(),
-                userId = FirebaseAuthModel.shared.getCurrentUserId().toString(),
+                userId = viewModel.connectedUser.value?.id ?: "",
                 tags = recipeTags,
                 steps = recipeSteps,
                 ingredients = recipeIngredients,
@@ -119,6 +120,7 @@ class AddRecipeFragment : Fragment() {
         }
 
         observeTags()
+        viewModel.connectedUser.observe(viewLifecycleOwner){}
     }
 
     private fun observeTags() {

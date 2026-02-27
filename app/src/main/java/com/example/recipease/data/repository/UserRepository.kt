@@ -3,6 +3,8 @@ package com.example.recipease.data.repository
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.recipease.dao.AppLocalDB
+import com.example.recipease.dao.AppLocalDbRepository
 import com.example.recipease.data.models.FirebaseModel
 import com.example.recipease.data.models.CloudinaryStorageModel
 import com.example.recipease.model.User
@@ -13,27 +15,21 @@ class UserRepository private constructor() {
     private val firebaseModel = FirebaseModel()
     private val storageModel = CloudinaryStorageModel()
     private val executor = Executors.newSingleThreadExecutor()
-    private val _users = MutableLiveData<List<User>>(emptyList())
-    val users: LiveData<List<User>> get() = _users
 
-    private val _connectedUser = MutableLiveData<User?>()
-    val connectedUserLive: LiveData<User?> get() = _connectedUser
+    private val database: AppLocalDbRepository = AppLocalDB.db
 
-    var connectedUser: User?
-        get() = _connectedUser.value
-        set(value) {
-            _connectedUser.postValue(value)
-        }
+    var connectedUser: LiveData<User?> = MutableLiveData(null)
 
     companion object {
         val shared = UserRepository()
     }
 
-    fun getAllUsers() {
+    fun refreshUsers() {
         firebaseModel.getAllUsers(User.lastUpdated) { fetchedUsers ->
             executor.execute {
                 var time = User.lastUpdated
                 for (user in fetchedUsers) {
+                    database.userDao.insertUsers(user)
                     user.lastUpdated?.let { userLastUpdated ->
                         if (time < userLastUpdated) {
                             time = userLastUpdated
@@ -41,16 +37,21 @@ class UserRepository private constructor() {
                     }
                 }
                 User.lastUpdated = time
-
-                _users.postValue(fetchedUsers)
             }
         }
     }
 
+    fun getAllUsers(): LiveData<List<User>> {
+        return database.userDao.getAllUsers()
+    }
+
+    fun getUserById(id: String): LiveData<User?> {
+        return database.userDao.getUserById(id)
+    }
+
     fun addUser(user: User, userImage: Bitmap, completion: () -> Unit) {
         firebaseModel.addUser(user) {
-            storageModel.uploadImage(user, userImage) {
-                    pictureUrl ->
+            storageModel.uploadImage(user, userImage) { pictureUrl ->
                 if (!pictureUrl.isNullOrEmpty()) {
                     val userCopy = user.copy(profilePictureUrl = pictureUrl)
                     firebaseModel.addUser(userCopy, completion)
@@ -59,10 +60,5 @@ class UserRepository private constructor() {
                 }
             }
         }
-    }
-
-    fun getUserById(userId: String, completion: (User?) -> Unit) {
-        // ADD DAO TO THIS, IT CURRENTLY CALLS THE DB, ONCE WE HAVE A DAO WITH ROOM WE CAN CALL THE LOCALDB WITH ALL USERS BEFORE, AND IT HSOULD BE FINE.
-        firebaseModel.getUserById(userId) { user -> completion(user) }
     }
 }
