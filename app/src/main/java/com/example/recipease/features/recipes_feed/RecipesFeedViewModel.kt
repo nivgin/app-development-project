@@ -1,51 +1,67 @@
 package com.example.recipease.features.recipes_feed
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.example.recipease.data.repository.RecipeRepository
+import com.example.recipease.data.repository.TagsRepository
 import com.example.recipease.data.repository.UserRepository
 import com.example.recipease.model.Recipe
 import com.example.recipease.model.User
 
-data class RecipeWithUser(
-    val recipe: Recipe,
-    val user: User?
-)
-
 class RecipesFeedViewModel : ViewModel() {
 
+    data class RecipeWithUser(
+        val recipe: Recipe,
+        val user: User?
+    )
     private val recipeRepo = RecipeRepository.shared
+    private val tagsRepo = TagsRepository.shared
+
     private val userRepo = UserRepository.shared
-
-    val connectedUser: LiveData<User?> = UserRepository.shared.connectedUserLive
-
-    val tags: LiveData<List<String>> = recipeRepo.tags
-
-    private val _feed = MutableLiveData<List<RecipeWithUser>>()
-    val feed: LiveData<List<RecipeWithUser>> = _feed
+    private val recipes: LiveData<List<Recipe>> = recipeRepo.getAllRecipes()
+    private val users: LiveData<List<User>> = userRepo.getAllUsers()
+    val tags: LiveData<List<String>> = tagsRepo.getAllTags()
+    val displayedRecipes = MediatorLiveData<List<RecipeWithUser>>()
+    var currentSelectedTags: Set<String> = emptySet()
 
     init {
-        recipeRepo.recipes.observeForever { updateFeed() }
-        userRepo.users.observeForever { updateFeed() }
+        displayedRecipes.addSource(recipes) {
+            processRecipes(currentSelectedTags)
+        }
+        displayedRecipes.addSource(users) {
+            processRecipes(currentSelectedTags)
+        }
     }
 
-    fun loadFeed() {
-        recipeRepo.getAllRecipes()
-        userRepo.getAllUsers()
-    }
-    fun loadTags() {
-        recipeRepo.getAllTags()
+    fun refreshRecipes() {
+        recipeRepo.refreshRecipes()
     }
 
-    private fun updateFeed() {
-        val recipes = recipeRepo.recipes.value ?: return
-        val users = userRepo.users.value ?: return
+    fun refreshUsers() {
+        userRepo.refreshUsers()
+    }
 
-        val combined = recipes.map { recipe ->
-            val user = users.find { it.id == recipe.userId }
-            RecipeWithUser(recipe, user)
+    fun refreshTags() {
+        tagsRepo.refreshTags()
+    }
+
+    fun processRecipes(selectedTags: Set<String>) {
+        currentSelectedTags = selectedTags
+        val allRecipes = recipes.value ?: emptyList()
+        val allUsers = users.value ?: emptyList()
+
+        val filtered = if (selectedTags.isEmpty()) {
+            allRecipes
+        } else {
+            allRecipes.filter { recipe ->
+                selectedTags.all { tag -> recipe.tags.contains(tag) }
+            }
         }
 
-        _feed.postValue(combined) }
+        displayedRecipes.value = filtered.map { recipe ->
+            val user = allUsers.find { it.id == recipe.userId }
+            RecipeWithUser(recipe, user)
+        }
+    }
 }

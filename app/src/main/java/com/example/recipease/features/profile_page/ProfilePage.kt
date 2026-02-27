@@ -18,7 +18,7 @@ class ProfilePage : Fragment() {
     private lateinit var profileRecipeAdapter: ProfileRecipeViewAdapter
 
     private val mockRecipes = listOf(
-        Recipe("Chocolate Cake", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
+        Recipe("Chocolate Cake", "Chocolate Cake", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
         Recipe("Pasta Carbonara", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
         Recipe("Greek Salad", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
         Recipe("Chicken Tikka", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),

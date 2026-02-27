@@ -5,6 +5,7 @@ import com.example.recipease.model.Recipe
 import com.example.recipease.model.Tags
 import com.example.recipease.model.User
 import com.google.firebase.Firebase
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.memoryCacheSettings
@@ -20,7 +21,7 @@ class FirebaseModel {
 
     fun getAllRecipes(since: Long, completion: (List<Recipe>) -> Unit) {
         database.collection(Constants.RECIPES)
-            //.whereGreaterThanOrEqualTo(Recipe.LAST_UPDATED_KEY, Timestamp(since / 1000, 0)) In the future when we actually add caching..
+            .whereGreaterThanOrEqualTo(Recipe.LAST_UPDATED_KEY, Timestamp(since / 1000, 0))
             .get()
             .addOnCompleteListener { result ->
                 when (result.isSuccessful) {
@@ -43,7 +44,7 @@ class FirebaseModel {
 
     fun getAllUsers(since: Long, completion: (List<User>) -> Unit) {
         database.collection(Constants.USERS)
-            //.whereGreaterThanOrEqualTo(User.LAST_UPDATED_KEY, Timestamp(since / 1000, 0)) In the future when we actually add caching..
+            .whereGreaterThanOrEqualTo(User.LAST_UPDATED_KEY, Timestamp(since / 1000, 0))
             .get()
             .addOnCompleteListener { result ->
                 when (result.isSuccessful) {

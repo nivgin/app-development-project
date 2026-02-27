@@ -1,11 +1,16 @@
 package com.example.recipease.model
 
 import android.content.Context
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.recipease.base.RecipeaseApp
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 
+@Entity
 data class Tags(
+    @PrimaryKey
+    val id: Int = 0, // Single row for tags
     val tags: List<String>,
     val lastUpdated: Long?
 ) {

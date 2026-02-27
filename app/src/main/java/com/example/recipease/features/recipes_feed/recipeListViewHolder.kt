@@ -3,6 +3,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemRecipeCardBinding
 import com.example.recipease.model.Recipe
 import com.squareup.picasso.Picasso
+import com.example.recipease.features.recipes_feed.RecipesFeedViewModel.RecipeWithUser
 
 class recipeListViewHolder (
     private var binding: ItemRecipeCardBinding,

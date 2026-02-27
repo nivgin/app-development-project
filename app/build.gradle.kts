@@ -6,6 +6,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 // -------------------------------
@@ -85,4 +86,8 @@ dependencies {
     implementation("com.cloudinary:cloudinary-android:2.3.1")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

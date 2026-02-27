@@ -10,6 +10,9 @@ import com.example.recipease.databinding.FragmentViewRecipeBinding
 import com.squareup.picasso.Picasso
 import com.example.recipease.model.Recipe
 import androidx.navigation.fragment.navArgs
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 
 class ViewRecipe : Fragment() {
 
@@ -17,6 +20,7 @@ class ViewRecipe : Fragment() {
     private val args: ViewRecipeArgs by navArgs()
     private lateinit var ingredientsAdapter: ViewIngredientsViewAdapter
     private lateinit var stepsAdapter: ViewStepsViewAdapter
+    private lateinit var tagsAdapter: ViewTagsViewAdapter
     private lateinit var currentRecipe: Recipe
 
     override fun onCreateView(
@@ -37,6 +41,7 @@ class ViewRecipe : Fragment() {
         // Set up RecyclerViews
         setupIngredientsRecycler()
         setupStepsRecycler()
+        setupTagsRecycler()
     }
 
     private fun populateRecipeDetails() {
@@ -70,6 +75,18 @@ class ViewRecipe : Fragment() {
         binding.viewRecipeStepsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = stepsAdapter
+            isNestedScrollingEnabled = false
+        }
+    }
+
+    private fun setupTagsRecycler() {
+        tagsAdapter = ViewTagsViewAdapter(currentRecipe.tags)
+        binding.viewRecipeTagsRecyclerView.apply {
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                flexDirection = FlexDirection.ROW
+                flexWrap = FlexWrap.WRAP
+            }
+            adapter = tagsAdapter
             isNestedScrollingEnabled = false
         }
     }

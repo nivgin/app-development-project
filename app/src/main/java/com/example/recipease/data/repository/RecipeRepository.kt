@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import com.example.recipease.data.models.FirebaseModel
 import com.example.recipease.model.Recipe
 import java.util.concurrent.Executors
-import androidx.lifecycle.MutableLiveData
+import com.example.recipease.dao.AppLocalDB
+import com.example.recipease.dao.AppLocalDbRepository
 import com.example.recipease.data.models.CloudinaryStorageModel
-import com.example.recipease.model.Tags
 
 class RecipeRepository private constructor() {
 
@@ -15,22 +15,24 @@ class RecipeRepository private constructor() {
     private val StorageModel = CloudinaryStorageModel()
     private var executor = Executors.newSingleThreadExecutor()
 
-    private val _recipes = MutableLiveData<List<Recipe>>(emptyList())
-    val recipes: LiveData<List<Recipe>> get() = _recipes
-    private val _tags = MutableLiveData<List<String>>(emptyList())
-    val tags: LiveData<List<String>> get() = _tags
+    private val database: AppLocalDbRepository = AppLocalDB.db
 
     companion object {
         val shared = RecipeRepository()
     }
 
+    fun getAllRecipes(): LiveData<List<Recipe>> {
+        return database.recipeDao.getAllRecipes()
+    }
 
+    fun refreshRecipes() {
+        val lastUpdated = Recipe.lastUpdated
 
-    fun getAllRecipes() {
         firebaseModel.getAllRecipes(Recipe.lastUpdated) { fetchedRecipes ->
             executor.execute {
-                var time = Recipe.lastUpdated
+                var time = lastUpdated
                 for (recipe in fetchedRecipes) {
+                    database.recipeDao.insertRecipes(recipe)
                     recipe.lastUpdated?.let { recipeLastUpdated ->
                         if (time < recipeLastUpdated) {
                             time = recipeLastUpdated
@@ -38,8 +40,6 @@ class RecipeRepository private constructor() {
                     }
                 }
                 Recipe.lastUpdated = time
-
-                _recipes.postValue(fetchedRecipes)
             }
         }
     }
@@ -54,18 +54,6 @@ class RecipeRepository private constructor() {
                 } else {
                     completion()
                 }
-            }
-        }
-    }
-
-    fun getAllTags() {
-        firebaseModel.getTags(Tags.lastUpdated) { fetchedTags ->
-            executor.execute {
-                val lastUpdated = Tags.lastUpdated
-                val newUpdated = fetchedTags?.lastUpdated ?: lastUpdated
-                Tags.lastUpdated = newUpdated
-
-                _tags.postValue(fetchedTags?.tags)
             }
         }
     }
