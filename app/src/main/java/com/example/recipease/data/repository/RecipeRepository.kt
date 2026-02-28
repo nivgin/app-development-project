@@ -57,7 +57,8 @@ class RecipeRepository private constructor() {
         }
     }
 
-    fun addRecipe(recipe: Recipe, recipeImage: Bitmap, completion: () -> Unit) {        firebaseModel.addRecipe(recipe) {
+    fun addRecipe(recipe: Recipe, recipeImage: Bitmap, completion: () -> Unit) {
+        firebaseModel.addRecipe(recipe) {
             StorageModel.uploadImage(recipe, recipeImage) {
                 pictureUrl ->
                 if (!pictureUrl.isNullOrEmpty()) {

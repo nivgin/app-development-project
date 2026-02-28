@@ -16,6 +16,7 @@ import com.example.recipease.features.view_recipe.ViewStepsViewAdapter
 import com.example.recipease.features.view_recipe.ViewTagsViewAdapter
 import com.example.recipease.data.repository.RecipeRepository
 import androidx.navigation.fragment.findNavController
+import com.example.recipease.features.profile_page.ProfilePageDirections
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -57,6 +58,7 @@ class ManageRecipe : Fragment() {
         binding.viewRecipeTime.text = currentRecipe.time
         binding.viewRecipeDifficulty.text = currentRecipe.difficulty
         binding.viewRecipeServings.text = currentRecipe.servings.toString()
+        binding.viewRecipeNotes.text = currentRecipe.notes
         currentRecipe.pictureUrl?.let {
             if (it.isNotBlank()) {
                 Picasso.get()
@@ -98,7 +100,10 @@ class ManageRecipe : Fragment() {
 
     private fun setupButtons() {
         binding.editRecipeBtn.setOnClickListener {
-            // TODO: Navigate to edit recipe
+            val action = ManageRecipeDirections.actionManageRecipeToEditRecipe(
+                recipe = currentRecipe,
+            )
+            findNavController().navigate(action)
         }
         binding.deleteRecipeBtn.setOnClickListener {
             recipeRepo.deleteRecipe(currentRecipe) {}
