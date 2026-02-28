@@ -1,4 +1,4 @@
-package com.example.recipease.features.view_recipe
+package com.example.recipease.features.manage_recipe
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,30 +6,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.recipease.databinding.FragmentViewRecipeBinding
+import com.example.recipease.databinding.FragmentManageRecipeBinding
 import com.squareup.picasso.Picasso
 import com.example.recipease.model.Recipe
 import androidx.navigation.fragment.navArgs
 import com.example.recipease.model.User
+import com.example.recipease.features.view_recipe.ViewIngredientsViewAdapter
+import com.example.recipease.features.view_recipe.ViewStepsViewAdapter
+import com.example.recipease.features.view_recipe.ViewTagsViewAdapter
+import com.example.recipease.data.repository.RecipeRepository
+import androidx.navigation.fragment.findNavController
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 
-class ViewRecipe : Fragment() {
+class ManageRecipe : Fragment() {
 
-    private lateinit var binding: FragmentViewRecipeBinding
-    private val args: ViewRecipeArgs by navArgs()
+    private lateinit var binding: FragmentManageRecipeBinding
+    private val args: ManageRecipeArgs by navArgs()
     private lateinit var ingredientsAdapter: ViewIngredientsViewAdapter
     private lateinit var stepsAdapter: ViewStepsViewAdapter
     private lateinit var tagsAdapter: ViewTagsViewAdapter
     private lateinit var currentRecipe: Recipe
     private lateinit var currentUser: User
+    private val recipeRepo = RecipeRepository.shared
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentViewRecipeBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentManageRecipeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,35 +44,24 @@ class ViewRecipe : Fragment() {
         currentRecipe = args.recipe
         currentUser = args.user ?: User("Unknown", "", "", 0)
 
-        // Populate recipe details
         populateRecipeDetails()
-
-        // Set up RecyclerViews
         setupIngredientsRecycler()
         setupStepsRecycler()
         setupTagsRecycler()
+        setupButtons()
     }
 
     private fun populateRecipeDetails() {
         binding.viewRecipeTitle.text = currentRecipe.name
         binding.viewRecipeDescription.text = currentRecipe.description
-        binding.viewRecipeAuthor.text = currentUser.displayName
         binding.viewRecipeTime.text = currentRecipe.time
         binding.viewRecipeDifficulty.text = currentRecipe.difficulty
         binding.viewRecipeServings.text = currentRecipe.servings.toString()
-        binding.viewRecipeNotes.text = currentRecipe.notes
         currentRecipe.pictureUrl?.let {
             if (it.isNotBlank()) {
                 Picasso.get()
                     .load(it)
                     .into(binding.viewRecipeImage)
-            }
-        }
-        currentUser.profilePictureUrl?.let {
-            if (it.isNotBlank()) {
-                Picasso.get()
-                    .load(it)
-                    .into(binding.viewRecipeAuthorImage)
             }
         }
     }
@@ -100,4 +95,15 @@ class ViewRecipe : Fragment() {
             isNestedScrollingEnabled = false
         }
     }
+
+    private fun setupButtons() {
+        binding.editRecipeBtn.setOnClickListener {
+            // TODO: Navigate to edit recipe
+        }
+        binding.deleteRecipeBtn.setOnClickListener {
+            recipeRepo.deleteRecipe(currentRecipe) {}
+            findNavController().popBackStack()
+        }
+    }
 }
+

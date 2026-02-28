@@ -29,13 +29,14 @@
             android:background="@color/white_recipe_card_bg"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/profileImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/circle_mask"
+                android:clipToOutline="true"
                 android:contentDescription="Profile Picture"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_profile_placeholder"
@@ -47,28 +48,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginTop="16dp"
                 android:text="User Name"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/profileAboutMe"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profileImage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
-
-            <TextView
-                android:id="@+id/profileAboutMe"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="About me..."
-                android:textSize="14sp"
-                android:textColor="@color/gray_text"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/profileImage"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileName" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/editProfileBtn"

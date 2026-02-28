@@ -114,9 +114,8 @@ class AddRecipeFragment : Fragment() {
             binding.ivPhoto.buildDrawingCache()
             val imageBitmap = (binding.ivPhoto.drawable as BitmapDrawable).bitmap
 
-            RecipeRepository.shared.addRecipe(recipe, imageBitmap) {
-                dismiss()
-            }
+            RecipeRepository.shared.addRecipe(recipe, imageBitmap) {}
+            dismiss()
         }
 
         observeTags()

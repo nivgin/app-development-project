@@ -2,7 +2,7 @@ package com.example.recipease.data.repository
 
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import com.example.recipease.dao.AppLocalDB
 import com.example.recipease.dao.AppLocalDbRepository
 import com.example.recipease.data.models.FirebaseModel
@@ -18,7 +18,18 @@ class UserRepository private constructor() {
 
     private val database: AppLocalDbRepository = AppLocalDB.db
 
-    var connectedUser: LiveData<User?> = MutableLiveData(null)
+    val connectedUser: MediatorLiveData<User?> = MediatorLiveData()
+    private var currentUserSource: LiveData<User?>? = null
+
+    fun setConnectedUser(source: LiveData<User?>?) {
+        currentUserSource?.let { connectedUser.removeSource(it) }
+        currentUserSource = source
+        if (source != null) {
+            connectedUser.addSource(source) { connectedUser.value = it }
+        } else {
+            connectedUser.value = null
+        }
+    }
 
     companion object {
         val shared = UserRepository()

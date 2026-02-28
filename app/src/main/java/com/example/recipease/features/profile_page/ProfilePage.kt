@@ -1,31 +1,32 @@
 package com.example.recipease.features.profile_page
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.recipease.data.models.FirebaseAuthModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.example.recipease.databinding.FragmentProfilePageBinding
 import com.example.recipease.model.Recipe
+import com.squareup.picasso.Picasso
 
 class ProfilePage : Fragment() {
 
     private lateinit var binding: FragmentProfilePageBinding
     private lateinit var profileRecipeAdapter: ProfileRecipeViewAdapter
+    private val viewModel: ProfilePageViewModel by viewModels()
 
-    private val mockRecipes = listOf(
-        Recipe("Chocolate Cake", "Chocolate Cake", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
-        Recipe("Pasta Carbonara", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
-        Recipe("Greek Salad", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
-        Recipe("Chicken Tikka", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
-        Recipe("Beef Tacos", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
-        Recipe("Sushi Rolls", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L),
-        Recipe("Banana Bread", "", "", "", "", 0, "", emptyList(), emptyList(), emptyList(), pictureUrl = "", notes = "", lastUpdated = 0L)
-    )
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshRecipes()
+        viewModel.refreshUser()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +47,43 @@ class ProfilePage : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        observeRecipes()
+        observeConnectedUser()
+    }
+
+    private fun observeConnectedUser() {
+        viewModel.connectedUser.observe(viewLifecycleOwner) { user ->
+            binding.profileName.text = user?.displayName
+            user?.profilePictureUrl?.let {
+                if (it.isNotBlank()) {
+                    Picasso.get()
+                        .load(it)
+                        .into(binding.profileImage)
+                }
+            }
+        }
+    }
+
+    private fun observeRecipes() {
+        viewModel.userRecipes.observe(viewLifecycleOwner) { recipes ->
+            profileRecipeAdapter.updateList(recipes)
+        }
+    }
+
     private fun setupRecipeRecyclerView() {
-        // Initialize adapter with mock recipes for testing
-        profileRecipeAdapter = ProfileRecipeViewAdapter(mockRecipes)
+        profileRecipeAdapter = ProfileRecipeViewAdapter(viewModel.userRecipes.value ?: emptyList())
 
         // Set up click listener
         profileRecipeAdapter.listener = object : OnProfileRecipeClickListener {
             override fun onRecipeClick(recipe: Recipe, position: Int) {
-                // TODO: Navigate to manage recipe
+                val action = ProfilePageDirections.actionProfilePageToManageRecipe(
+                    recipe = recipe,
+                    user = viewModel.connectedUser.value
+                )
+                findNavController().navigate(action)
             }
         }
 

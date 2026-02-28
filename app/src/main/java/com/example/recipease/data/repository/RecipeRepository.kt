@@ -25,6 +25,10 @@ class RecipeRepository private constructor() {
         return database.recipeDao.getAllRecipes()
     }
 
+    fun getRecipesByUser(userId: String): LiveData<List<Recipe>> {
+        return database.recipeDao.getRecipesByUser(userId)
+    }
+
     fun refreshRecipes() {
         val lastUpdated = Recipe.lastUpdated
 
@@ -44,8 +48,16 @@ class RecipeRepository private constructor() {
         }
     }
 
-    fun addRecipe(recipe: Recipe, recipeImage: Bitmap, completion: () -> Unit) {
-        firebaseModel.addRecipe(recipe) {
+    fun deleteRecipe(recipe: Recipe, completion: () -> Unit) {
+        firebaseModel.deleteRecipe(recipe.id) {
+            executor.execute {
+                database.recipeDao.deleteRecipe(recipe)
+                completion()
+            }
+        }
+    }
+
+    fun addRecipe(recipe: Recipe, recipeImage: Bitmap, completion: () -> Unit) {        firebaseModel.addRecipe(recipe) {
             StorageModel.uploadImage(recipe, recipeImage) {
                 pictureUrl ->
                 if (!pictureUrl.isNullOrEmpty()) {

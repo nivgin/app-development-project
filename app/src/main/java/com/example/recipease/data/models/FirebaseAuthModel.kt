@@ -49,11 +49,11 @@ class FirebaseAuthModel {
 
     fun populateUser(id: String) {
         UserRepository.shared.refreshUsers()
-        UserRepository.shared.connectedUser = UserRepository.shared.getUserById(id)
+        UserRepository.shared.setConnectedUser(UserRepository.shared.getUserById(id))
     }
 
     fun signOut() {
         auth.signOut()
-        UserRepository.shared.connectedUser = MutableLiveData(null)
+        UserRepository.shared.setConnectedUser(null)
     }
 }
