@@ -169,7 +169,7 @@ class LoginPageFragment : Fragment() {
         binding.tabSignUp.isSelected = !signIn
         binding.btnSignIn.text = if (signIn) "Sign In" else "Sign Up"
         changeSignupVisibility(if (signIn) View.GONE else View.VISIBLE)
-        signUpValidator.update()
+        if (signIn) signInValidator.update() else signUpValidator.update()
     }
 
     fun changeSignupVisibility(state: Int) {
