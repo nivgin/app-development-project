@@ -1,10 +1,12 @@
 package com.example.recipease.features.recipes_feed
 
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,9 +48,15 @@ class RecipesFeedFragment : Fragment() {
         }
         binding.tagsRecycler.isNestedScrollingEnabled = false
         tagsAdapter = tagsViewAdapter(emptyList()) { selectedTags ->
-            viewModel.processRecipes(selectedTags)
+            val searchText = binding.searchBar.text.toString()
+            viewModel.processRecipes(selectedTags, searchText)
         }
         binding.tagsRecycler.adapter = tagsAdapter
+
+        binding.searchBar.addTextChangedListener { editable ->
+            val searchText = editable?.toString() ?: ""
+            viewModel.processRecipes(viewModel.currentSelectedTags, searchText)
+        }
 
         binding.RecipesRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.RecipesRecycler.isNestedScrollingEnabled = false
@@ -60,14 +68,16 @@ class RecipesFeedFragment : Fragment() {
             }
         }
 
+        observeLoading()
         observeRecipes()
         observeTags()
+        observeUsername()
     }
 
     private fun observeRecipes() {
         viewModel.displayedRecipes.observe(viewLifecycleOwner) { list ->
             recipesAdapter.updateList(list)
-            binding.titleAllRecipes.text = if (viewModel.currentSelectedTags.isNotEmpty()) {
+            binding.titleAllRecipes.text = if (viewModel.currentSelectedTags.isNotEmpty() || viewModel.currentSearchFilter.isNotEmpty()) {
                 "${list.size} Recipes"
             } else {
                 "All Recipes"
@@ -79,6 +89,26 @@ class RecipesFeedFragment : Fragment() {
         viewModel.tags.observe(viewLifecycleOwner) { tagList ->
             tagsAdapter.updateList(tagList)
             tagsAdapter.updateSelected(viewModel.currentSelectedTags)
+        }
+    }
+
+    private fun observeUsername() {
+        viewModel.connectedUser.observe(viewLifecycleOwner) { user ->
+            if (user != null) {
+                binding.greetUser.text = "Hello, ${user.displayName} \uD83D\uDC4B"
+            }
+        }
+    }
+
+    private fun observeLoading() {
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshRecipes()
+            viewModel.refreshTags()
+            viewModel.refreshUsers()
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            binding.loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.swipeRefresh.isRefreshing = loading
         }
     }
 

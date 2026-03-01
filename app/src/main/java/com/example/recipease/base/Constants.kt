@@ -28,4 +28,10 @@ object Constants {
     fun folderFor(model: Identifiable): String {
         return folderMap[model::class.java] ?: "misc"
     }
+
+    // -----------------------------
+    // Validation Values
+    // -----------------------------
+    const val MIN_NAME_LEN = 6
+    const val MIN_PASSWORD_LEN = 6
 }

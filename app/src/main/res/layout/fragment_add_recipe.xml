@@ -216,6 +216,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="4"
+                android:inputType="number"
                 android:padding="12dp"
                 android:background="@drawable/bg_edittext"
                 android:layout_marginStart="8dp"
@@ -226,10 +227,9 @@
             <!-- Difficulty -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/difficultyLayout"
-                android:layout_width="0dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:hint="Easy"
                 app:endIconMode="dropdown_menu"
                 app:boxBackgroundMode="filled"
                 app:boxStrokeWidth="0dp"
@@ -368,5 +368,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loadingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

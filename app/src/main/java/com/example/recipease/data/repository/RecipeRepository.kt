@@ -33,7 +33,8 @@ class RecipeRepository private constructor() {
         return database.recipeDao.getRecipesByUser(userId)
     }
 
-    fun refreshRecipes() {
+    fun refreshRecipes(completion: () -> Unit = {}) {
+
         val lastUpdated = Recipe.lastUpdated
 
         firebaseModel.getAllRecipes(Recipe.lastUpdated) { fetchedRecipes ->
@@ -49,6 +50,7 @@ class RecipeRepository private constructor() {
                 }
                 Recipe.lastUpdated = time
             }
+            completion()
         }
     }
 
