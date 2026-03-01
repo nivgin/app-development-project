@@ -11,7 +11,7 @@ import com.example.recipease.model.User
 class AddRecipeViewModel : ViewModel() {
 
     private val tagsRepo = TagsRepository.shared
-
+    private val recipeRepo = RecipeRepository.shared
     private val userRepo = UserRepository.shared
 
     val tags: LiveData<List<String>> = tagsRepo.getAllTags()
@@ -20,5 +20,9 @@ class AddRecipeViewModel : ViewModel() {
 
     fun refreshTags() {
         tagsRepo.refreshTags()
+    }
+
+    fun refreshRecipes() {
+        recipeRepo.refreshRecipes()
     }
 }

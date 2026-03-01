@@ -9,4 +9,9 @@
     <color name="gray_text">#7f756f</color>
     <color name="white_recipe_card_bg">#fdfcfc</color>
     <color name="app_bg_white">#f9f7f5</color>
+    <color name="dark_gray">#4A4A4A</color>
+    <color name="medium_gray">#757575</color>
+    <color name="light_gray">#BDBDBD</color>
+    <color name="very_light_gray">#E0E0E0</color>
+    <color name="light_red">#22FF0000</color>
 </resources>

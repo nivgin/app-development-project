@@ -83,6 +83,13 @@ class FirebaseModel {
             }
     }
 
+    fun deleteRecipe(recipeId: String, completion: () -> Unit) {
+        database.collection(Constants.RECIPES).document(recipeId)
+            .delete()
+            .addOnSuccessListener { completion() }
+            .addOnFailureListener { completion() }
+    }
+
     fun getTags(since: Long, completion: (Tags?) -> Unit) {
         database.collection(Constants.TAGS)
             .document(Constants.TAGS_DOC_ID)

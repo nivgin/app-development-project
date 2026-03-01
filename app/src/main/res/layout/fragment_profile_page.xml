@@ -27,15 +27,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:background="@color/white_recipe_card_bg"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <ImageView
                 android:id="@+id/profileImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@drawable/circle_mask"
+                android:clipToOutline="true"
                 android:contentDescription="Profile Picture"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_profile_placeholder"
@@ -47,54 +47,165 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="4dp"
+                android:padding="12dp"
                 android:text="User Name"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/profileAboutMe"
+                app:layout_constraintBottom_toBottomOf="@+id/profileImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/profileImage"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/profileImage"
                 app:layout_constraintVertical_chainStyle="packed" />
-
-            <TextView
-                android:id="@+id/profileAboutMe"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="About me..."
-                android:textSize="14sp"
-                android:textColor="@color/gray_text"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/profileImage"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileName" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/editProfileBtn"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
-                android:layout_marginStart="16dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_publish_button"
-                android:backgroundTint="@null"
                 android:text="Edit Profile"
-                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_gray"
+                app:backgroundTint="@color/very_light_gray"
+                app:cornerRadius="12dp"
                 app:icon="@drawable/edit_24px"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="@color/white"
-                app:backgroundTint="@null"
-                app:cornerRadius="12dp"
+                app:iconTint="@color/dark_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profileImage"
-                app:rippleColor="@android:color/transparent" />
+                app:layout_constraintTop_toBottomOf="@id/profileImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- EDIT PROFILE CARD (hidden by default) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/editProfileCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_recipe_card_bg"
+            android:padding="16dp">
+
+            <!-- Circular Image Picker -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/editProfilePhotoPicker"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/circle_mask"
+                android:clipToOutline="true"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Selected image -->
+                <ImageView
+                    android:id="@+id/editProfileImagePreview"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_profile_placeholder"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Camera placeholder overlay -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/editProfilePhotoPlaceholder"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#80000000"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <ImageView
+                        android:id="@+id/editProfileCameraIcon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_camera"
+                        app:tint="@color/white"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Display Name EditText -->
+            <EditText
+                android:id="@+id/editNameInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Display Name"
+                android:background="@drawable/bg_edittext"
+                android:padding="12dp"
+                android:inputType="textPersonName"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/editProfilePhotoPicker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/editProfilePhotoPicker"
+                app:layout_constraintBottom_toBottomOf="@id/editProfilePhotoPicker" />
+
+            <!-- Save / Cancel Buttons -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveProfileBtn"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/bg_publish_button"
+                android:backgroundTint="@null"
+                android:text="Save"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@null"
+                app:rippleColor="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cancelProfileBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editProfilePhotoPicker" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelProfileBtn"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="0dp"
+                android:text="Cancel"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_gray"
+                app:backgroundTint="@color/very_light_gray"
+                app:cornerRadius="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/saveProfileBtn"
+                app:layout_constraintTop_toBottomOf="@id/editProfilePhotoPicker" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

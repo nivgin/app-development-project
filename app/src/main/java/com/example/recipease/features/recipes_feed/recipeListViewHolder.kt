@@ -9,10 +9,10 @@ class recipeListViewHolder (
     private var binding: ItemRecipeCardBinding,
     private val listener: OnRecipeClickListener?
 ) : RecyclerView.ViewHolder(binding.root) {
-    private var recipe: Recipe? = null
+    private var recipeWithUser: RecipeWithUser? = null
 
     fun bind(post: RecipeWithUser, position: Int) {
-        this.recipe = post.recipe
+        this.recipeWithUser = post
         binding.recipeTitle.text = post.recipe.name
         binding.recipeDescription.text = post.recipe.description
         binding.recipeTime.text = post.recipe.time
@@ -32,8 +32,8 @@ class recipeListViewHolder (
                     .into(binding.recipeImage)
 
             binding.root.setOnClickListener {
-                    recipe.let { recipe ->
-                        listener?.onRecipeClick(post.recipe, position)
+                    recipeWithUser.let { recipe ->
+                        listener?.onRecipeClick(post, position)
                     }
                 }
             }

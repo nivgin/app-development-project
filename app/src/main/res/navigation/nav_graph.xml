@@ -15,7 +15,11 @@
     <fragment android:id="@+id/ProfilePage"
         android:name="com.example.recipease.features.profile_page.ProfilePage"
         android:label="Profile Page"
-        tools:layout="@layout/fragment_profile_page" />
+        tools:layout="@layout/fragment_profile_page">
+        <action
+            android:id="@+id/action_ProfilePage_to_ManageRecipe"
+            app:destination="@id/ManageRecipe" />
+    </fragment>
     <fragment android:id="@+id/AddRecipe"
         android:name="com.example.recipease.features.add_recipe.AddRecipeFragment"
         android:label="Add Recipe"
@@ -26,8 +30,39 @@
         android:label="View Recipe"
         tools:layout="@layout/fragment_view_recipe">
         <argument
+            android:name="recipeId"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/EditRecipeFragment"
+        android:name="com.example.recipease.features.edit_recipe.EditRecipeFragment"
+        android:label="Edit Recipe"
+        tools:layout="@layout/fragment_add_recipe">
+        <argument
             android:name="recipe"
             app:argType="com.example.recipease.model.Recipe" />
+    </fragment>
+    <fragment
+        android:id="@+id/ManageRecipe"
+        android:name="com.example.recipease.features.manage_recipe.ManageRecipe"
+        android:label="Manage Recipe"
+        tools:layout="@layout/fragment_manage_recipe">
+        <action
+            android:id="@+id/action_ManageRecipe_to_EditRecipe"
+            app:destination="@id/EditRecipeFragment" />
+        <argument
+            android:name="recipeId"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/LoginPage"
