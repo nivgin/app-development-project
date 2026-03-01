@@ -42,32 +42,12 @@ class RecipesFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tagsRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
-            flexDirection = FlexDirection.ROW
-            flexWrap = FlexWrap.WRAP
-        }
-        binding.tagsRecycler.isNestedScrollingEnabled = false
-        tagsAdapter = tagsViewAdapter(emptyList()) { selectedTags ->
-            val searchText = binding.searchBar.text.toString()
-            viewModel.processRecipes(selectedTags, searchText)
-        }
-        binding.tagsRecycler.adapter = tagsAdapter
-
+        setupTags()
+        setupRecipes()
         binding.searchBar.addTextChangedListener { editable ->
             val searchText = editable?.toString() ?: ""
             viewModel.processRecipes(viewModel.currentSelectedTags, searchText)
         }
-
-        binding.RecipesRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.RecipesRecycler.isNestedScrollingEnabled = false
-        recipesAdapter = recipeListViewAdapter(emptyList())
-        binding.RecipesRecycler.adapter = recipesAdapter
-        recipesAdapter.listener = object : OnRecipeClickListener {
-            override fun onRecipeClick(recipeWithUser: RecipeWithUser, position: Int) {
-                onRecipeClickAction(recipeWithUser, position)
-            }
-        }
-
         observeLoading()
         observeRecipes()
         observeTags()
@@ -109,6 +89,31 @@ class RecipesFeedFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
             binding.swipeRefresh.isRefreshing = loading
+        }
+    }
+
+    private fun setupTags() {
+        binding.tagsRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+            flexDirection = FlexDirection.ROW
+            flexWrap = FlexWrap.WRAP
+        }
+        binding.tagsRecycler.isNestedScrollingEnabled = false
+        tagsAdapter = tagsViewAdapter(emptyList()) { selectedTags ->
+            val searchText = binding.searchBar.text.toString()
+            viewModel.processRecipes(selectedTags, searchText)
+        }
+        binding.tagsRecycler.adapter = tagsAdapter
+    }
+
+    private fun setupRecipes() {
+        binding.RecipesRecycler.layoutManager = LinearLayoutManager(requireContext())
+        binding.RecipesRecycler.isNestedScrollingEnabled = false
+        recipesAdapter = recipeListViewAdapter(emptyList())
+        binding.RecipesRecycler.adapter = recipesAdapter
+        recipesAdapter.listener = object : OnRecipeClickListener {
+            override fun onRecipeClick(recipeWithUser: RecipeWithUser, position: Int) {
+                onRecipeClickAction(recipeWithUser, position)
+            }
         }
     }
 

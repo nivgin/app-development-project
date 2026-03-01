@@ -69,77 +69,21 @@ class AddRecipeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.refreshTags()
-
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tagsRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
-            flexDirection = FlexDirection.ROW
-            flexWrap = FlexWrap.WRAP
-        }
-        binding.tagsRecycler.isNestedScrollingEnabled = false
         binding.loadingIndicator.visibility = View.GONE
-
-        binding.difficulty.setAdapter(ArrayAdapter(
-            requireContext(),
-            R.layout.simple_list_item_1,
-            difficulties
-        ))
-        binding.difficulty.setText(difficulties[0], false)
-
-        ingredientsAdapter = IngredientsViewAdapter(mutableListOf()) { updatedIngredients ->
-            recipeIngredients = updatedIngredients.toList()
-            formValidator.update()
-        }
-        binding.ingredientsRecycler.adapter = ingredientsAdapter
-        binding.ingredientsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        ingredientsAdapter.addIngredient()
-        binding.addIngredientBtn.setOnClickListener {
-            ingredientsAdapter.addIngredient()
-            binding.ingredientsRecycler.scrollToPosition(ingredientsAdapter.itemCount - 1)
-        }
-
-        stepsAdapter = StepsViewAdapter(mutableListOf()) { updatedSteps ->
-            recipeSteps = updatedSteps.toList()
-            formValidator.update()
-        }
+        setupTags()
+        setupDifficulty()
+        setupIngredients()
+        setupSteps()
         binding.instructionsRecycler.adapter = stepsAdapter
         binding.instructionsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        stepsAdapter.addStep()
-        binding.addStepBtn.setOnClickListener {
-            stepsAdapter.addStep()
-            binding.instructionsRecycler.scrollToPosition(stepsAdapter.itemCount - 1)
-        }
-
         binding.publishBtn.setOnClickListener {
-            binding.loadingIndicator.visibility = View.VISIBLE
-
-            val recipe = Recipe(
-                id = UUID.randomUUID().toString(),
-                name = binding.recipeTitle.text.toString(),
-                description = binding.recipeDescription.text.toString(),
-                time = binding.cookTime.text.toString(),
-                servings = binding.servings.text.toString().toIntOrNull() ?: 0,
-                difficulty = binding.difficulty.text.toString(),
-                userId = viewModel.connectedUser.value?.id ?: "",
-                tags = recipeTags,
-                steps = recipeSteps,
-                ingredients = recipeIngredients,
-                pictureUrl = "",
-                notes = binding.notes.text.toString(),
-                lastUpdated = null
-            )
-
-            val imageBitmap = (binding.ivPhoto.drawable as BitmapDrawable).bitmap
-
-            RecipeRepository.shared.addRecipe(recipe, imageBitmap) {
-                dismiss()
-                binding.loadingIndicator.visibility = View.GONE
-            }
+            addRecipe()
         }
-
         observeTags()
         validateForm()
+        viewModel.refreshTags()
         viewModel.connectedUser.observe(viewLifecycleOwner){}
     }
 
@@ -179,6 +123,76 @@ class AddRecipeFragment : Fragment() {
         formValidator.isValid.observe(viewLifecycleOwner) { valid ->
             binding.publishBtn.isEnabled = valid
             binding.publishBtn.alpha = if (valid) 1f else 0.5f
+        }
+    }
+
+    private fun addRecipe() {
+        binding.loadingIndicator.visibility = View.VISIBLE
+
+        val recipe = Recipe(
+            id = UUID.randomUUID().toString(),
+            name = binding.recipeTitle.text.toString(),
+            description = binding.recipeDescription.text.toString(),
+            time = binding.cookTime.text.toString(),
+            servings = binding.servings.text.toString().toIntOrNull() ?: 0,
+            difficulty = binding.difficulty.text.toString(),
+            userId = viewModel.connectedUser.value?.id ?: "",
+            tags = recipeTags,
+            steps = recipeSteps,
+            ingredients = recipeIngredients,
+            pictureUrl = "",
+            notes = binding.notes.text.toString(),
+            lastUpdated = null
+        )
+
+        val imageBitmap = (binding.ivPhoto.drawable as BitmapDrawable).bitmap
+
+        RecipeRepository.shared.addRecipe(recipe, imageBitmap) {
+            dismiss()
+            binding.loadingIndicator.visibility = View.GONE
+        }
+    }
+
+    private fun setupIngredients() {
+        ingredientsAdapter = IngredientsViewAdapter(mutableListOf()) { updatedIngredients ->
+            recipeIngredients = updatedIngredients.toList()
+            formValidator.update()
+        }
+        binding.ingredientsRecycler.adapter = ingredientsAdapter
+        binding.ingredientsRecycler.layoutManager = LinearLayoutManager(requireContext())
+        ingredientsAdapter.addIngredient()
+        binding.addIngredientBtn.setOnClickListener {
+            ingredientsAdapter.addIngredient()
+            binding.ingredientsRecycler.scrollToPosition(ingredientsAdapter.itemCount - 1)
+        }
+    }
+
+    private fun setupTags() {
+        binding.tagsRecycler.layoutManager = FlexboxLayoutManager(requireContext()).apply {
+            flexDirection = FlexDirection.ROW
+            flexWrap = FlexWrap.WRAP
+        }
+        binding.tagsRecycler.isNestedScrollingEnabled = false
+    }
+
+    private fun setupDifficulty() {
+        binding.difficulty.setAdapter(ArrayAdapter(
+            requireContext(),
+            R.layout.simple_list_item_1,
+            difficulties
+        ))
+        binding.difficulty.setText(difficulties[0], false)
+    }
+
+    private fun setupSteps() {
+        stepsAdapter = StepsViewAdapter(mutableListOf()) { updatedSteps ->
+            recipeSteps = updatedSteps.toList()
+            formValidator.update()
+        }
+        stepsAdapter.addStep()
+        binding.addStepBtn.setOnClickListener {
+            stepsAdapter.addStep()
+            binding.instructionsRecycler.scrollToPosition(stepsAdapter.itemCount - 1)
         }
     }
     private fun dismiss() {
