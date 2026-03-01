@@ -110,11 +110,11 @@ class AddRecipeFragment : Fragment() {
                 lastUpdated = null
             )
 
-            binding.ivPhoto.isDrawingCacheEnabled = true
-            binding.ivPhoto.buildDrawingCache()
             val imageBitmap = (binding.ivPhoto.drawable as BitmapDrawable).bitmap
 
-            RecipeRepository.shared.addRecipe(recipe, imageBitmap) {}
+            RecipeRepository.shared.addRecipe(recipe, imageBitmap) {
+                viewModel.refreshRecipes()
+            }
             dismiss()
         }
 

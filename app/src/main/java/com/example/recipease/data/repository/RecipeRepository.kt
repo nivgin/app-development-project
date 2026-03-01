@@ -25,6 +25,10 @@ class RecipeRepository private constructor() {
         return database.recipeDao.getAllRecipes()
     }
 
+    fun getRecipeById(id: String): LiveData<Recipe> {
+        return database.recipeDao.getRecipeById(id)
+    }
+
     fun getRecipesByUser(userId: String): LiveData<List<Recipe>> {
         return database.recipeDao.getRecipesByUser(userId)
     }

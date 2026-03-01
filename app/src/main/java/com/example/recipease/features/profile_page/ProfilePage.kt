@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.recipease.data.models.FirebaseAuthModel
@@ -13,13 +16,16 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import androidx.navigation.fragment.findNavController
 import com.example.recipease.databinding.FragmentProfilePageBinding
 import com.example.recipease.model.Recipe
+import com.example.recipease.data.repository.UserRepository
 import com.squareup.picasso.Picasso
+import android.graphics.drawable.BitmapDrawable
 
 class ProfilePage : Fragment() {
 
     private lateinit var binding: FragmentProfilePageBinding
     private lateinit var profileRecipeAdapter: ProfileRecipeViewAdapter
     private val viewModel: ProfilePageViewModel by viewModels()
+    private var cameraLauncher: ActivityResultLauncher<Void?>? = null
 
 
     override fun onResume() {
@@ -40,8 +46,36 @@ class ProfilePage : Fragment() {
         binding = FragmentProfilePageBinding.inflate(inflater, container, false)
         setupRecipeRecyclerView()
 
+        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            bitmap?.let {
+                binding.editProfileImagePreview.setImageBitmap(it)
+                binding.editProfilePhotoPlaceholder.visibility = View.GONE
+            } ?: Toast.makeText(context, "No image captured", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.editProfilePhotoPicker.setOnClickListener {
+            cameraLauncher?.launch(null)
+        }
+
         binding.editProfileBtn.setOnClickListener {
-            FirebaseAuthModel.shared.signOut()
+            enterEditMode()
+        }
+
+        binding.cancelProfileBtn.setOnClickListener {
+            exitEditMode()
+        }
+
+        binding.saveProfileBtn.setOnClickListener {
+            val newName = binding.editNameInput.text.toString().trim()
+            val currentUser = viewModel.connectedUser.value ?: return@setOnClickListener
+
+            val imageBitmap = (binding.editProfileImagePreview.drawable as BitmapDrawable).bitmap
+
+            val updatedUser = currentUser.copy(displayName = newName)
+            UserRepository.shared.addUser(updatedUser, imageBitmap) {
+                viewModel.refreshUser()
+            }
+            exitEditMode()
         }
 
         return binding.root
@@ -73,21 +107,36 @@ class ProfilePage : Fragment() {
         }
     }
 
+    private fun enterEditMode() {
+        binding.editNameInput.setText(binding.profileName.text)
+        binding.editProfilePhotoPlaceholder.visibility = View.VISIBLE
+        viewModel.connectedUser.value?.profilePictureUrl?.let {
+            if (it.isNotBlank()) {
+                Picasso.get().load(it).into(binding.editProfileImagePreview)
+            }
+        }
+        binding.profileCard.visibility = View.GONE
+        binding.editProfileCard.visibility = View.VISIBLE
+    }
+
+    private fun exitEditMode() {
+        binding.editProfileCard.visibility = View.GONE
+        binding.profileCard.visibility = View.VISIBLE
+    }
+
     private fun setupRecipeRecyclerView() {
         profileRecipeAdapter = ProfileRecipeViewAdapter(viewModel.userRecipes.value ?: emptyList())
 
-        // Set up click listener
         profileRecipeAdapter.listener = object : OnProfileRecipeClickListener {
             override fun onRecipeClick(recipe: Recipe, position: Int) {
                 val action = ProfilePageDirections.actionProfilePageToManageRecipe(
-                    recipe = recipe,
-                    user = viewModel.connectedUser.value
+                    recipeId = recipe.id,
+                    userId = viewModel.connectedUser.value?.id
                 )
                 findNavController().navigate(action)
             }
         }
 
-        // Set up RecyclerView with FlexboxLayoutManager for flexible wrapping
         binding.myRecipesRecycler.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW

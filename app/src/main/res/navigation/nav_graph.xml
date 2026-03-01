@@ -30,12 +30,13 @@
         android:label="View Recipe"
         tools:layout="@layout/fragment_view_recipe">
         <argument
-            android:name="recipe"
-            app:argType="com.example.recipease.model.Recipe" />
+            android:name="recipeId"
+            app:argType="string" />
         <argument
-            android:name="user"
-            app:argType="com.example.recipease.model.User"
-            app:nullable="true" />
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/EditRecipeFragment"
@@ -55,12 +56,13 @@
             android:id="@+id/action_ManageRecipe_to_EditRecipe"
             app:destination="@id/EditRecipeFragment" />
         <argument
-            android:name="recipe"
-            app:argType="com.example.recipease.model.Recipe" />
+            android:name="recipeId"
+            app:argType="string" />
         <argument
-            android:name="user"
-            app:argType="com.example.recipease.model.User"
-            app:nullable="true" />
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/LoginPage"

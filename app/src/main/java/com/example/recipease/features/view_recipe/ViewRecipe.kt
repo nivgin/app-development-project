@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipease.databinding.FragmentViewRecipeBinding
 import com.squareup.picasso.Picasso
@@ -19,60 +20,81 @@ class ViewRecipe : Fragment() {
 
     private lateinit var binding: FragmentViewRecipeBinding
     private val args: ViewRecipeArgs by navArgs()
+    private val viewModel: ViewRecipeViewModel by viewModels()
+
     private lateinit var ingredientsAdapter: ViewIngredientsViewAdapter
     private lateinit var stepsAdapter: ViewStepsViewAdapter
     private lateinit var tagsAdapter: ViewTagsViewAdapter
-    private lateinit var currentRecipe: Recipe
-    private lateinit var currentUser: User
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshRecipes()
+        viewModel.refreshUsers()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentViewRecipeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        currentRecipe = args.recipe
-        currentUser = args.user ?: User("Unknown", "", "", 0)
 
-        // Populate recipe details
-        populateRecipeDetails()
-
-        // Set up RecyclerViews
         setupIngredientsRecycler()
         setupStepsRecycler()
         setupTagsRecycler()
+
+        viewModel.init(args.recipeId, args.userId)
+
+        observeRecipe()
+        observeUser()
     }
 
-    private fun populateRecipeDetails() {
-        binding.viewRecipeTitle.text = currentRecipe.name
-        binding.viewRecipeDescription.text = currentRecipe.description
-        binding.viewRecipeAuthor.text = currentUser.displayName
-        binding.viewRecipeTime.text = currentRecipe.time
-        binding.viewRecipeDifficulty.text = currentRecipe.difficulty
-        binding.viewRecipeServings.text = currentRecipe.servings.toString()
-        binding.viewRecipeNotes.text = currentRecipe.notes
-        currentRecipe.pictureUrl?.let {
+    private fun observeRecipe() {
+        viewModel.currentRecipe.observe(viewLifecycleOwner) { recipe ->
+            recipe ?: return@observe
+            populateRecipeDetails(recipe)
+        }
+    }
+
+    private fun observeUser() {
+        viewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            populateUserDetails(user)
+        }
+    }
+
+    private fun populateRecipeDetails(recipe: Recipe) {
+        binding.viewRecipeTitle.text = recipe.name
+        binding.viewRecipeDescription.text = recipe.description
+        binding.viewRecipeTime.text = recipe.time
+        binding.viewRecipeDifficulty.text = recipe.difficulty
+        binding.viewRecipeServings.text = recipe.servings.toString()
+        binding.viewRecipeNotes.text = recipe.notes
+        recipe.pictureUrl?.let {
             if (it.isNotBlank()) {
-                Picasso.get()
-                    .load(it)
-                    .into(binding.viewRecipeImage)
+                Picasso.get().load(it).into(binding.viewRecipeImage)
             }
         }
-        currentUser.profilePictureUrl?.let {
+        ingredientsAdapter.updateIngredients(recipe.ingredients)
+        stepsAdapter.updateSteps(recipe.steps)
+        tagsAdapter.updateTags(recipe.tags)
+    }
+
+    private fun populateUserDetails(user: User?) {
+        val displayUser = user ?: User(id = "", displayName = "Unknown", profilePictureUrl = null, lastUpdated = null)
+        binding.viewRecipeAuthor.text = displayUser.displayName
+        displayUser.profilePictureUrl?.let {
             if (it.isNotBlank()) {
-                Picasso.get()
-                    .load(it)
-                    .into(binding.viewRecipeAuthorImage)
+                Picasso.get().load(it).into(binding.viewRecipeAuthorImage)
             }
         }
     }
 
     private fun setupIngredientsRecycler() {
-        ingredientsAdapter = ViewIngredientsViewAdapter(currentRecipe.ingredients)
+        ingredientsAdapter = ViewIngredientsViewAdapter(emptyList())
         binding.viewRecipeIngredientsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ingredientsAdapter
@@ -81,7 +103,7 @@ class ViewRecipe : Fragment() {
     }
 
     private fun setupStepsRecycler() {
-        stepsAdapter = ViewStepsViewAdapter(currentRecipe.steps)
+        stepsAdapter = ViewStepsViewAdapter(emptyList())
         binding.viewRecipeStepsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = stepsAdapter
@@ -90,7 +112,7 @@ class ViewRecipe : Fragment() {
     }
 
     private fun setupTagsRecycler() {
-        tagsAdapter = ViewTagsViewAdapter(currentRecipe.tags)
+        tagsAdapter = ViewTagsViewAdapter(emptyList())
         binding.viewRecipeTagsRecyclerView.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW

@@ -5,32 +5,39 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.recipease.databinding.FragmentManageRecipeBinding
-import com.squareup.picasso.Picasso
-import com.example.recipease.model.Recipe
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.recipease.model.User
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.recipease.data.repository.RecipeRepository
+import com.example.recipease.databinding.FragmentManageRecipeBinding
 import com.example.recipease.features.view_recipe.ViewIngredientsViewAdapter
+import com.example.recipease.features.view_recipe.ViewRecipeViewModel
 import com.example.recipease.features.view_recipe.ViewStepsViewAdapter
 import com.example.recipease.features.view_recipe.ViewTagsViewAdapter
-import com.example.recipease.data.repository.RecipeRepository
-import androidx.navigation.fragment.findNavController
-import com.example.recipease.features.profile_page.ProfilePageDirections
+import com.example.recipease.model.Recipe
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.squareup.picasso.Picasso
 
 class ManageRecipe : Fragment() {
 
     private lateinit var binding: FragmentManageRecipeBinding
     private val args: ManageRecipeArgs by navArgs()
+    private val viewModel: ViewRecipeViewModel by viewModels()
+
     private lateinit var ingredientsAdapter: ViewIngredientsViewAdapter
     private lateinit var stepsAdapter: ViewStepsViewAdapter
     private lateinit var tagsAdapter: ViewTagsViewAdapter
-    private lateinit var currentRecipe: Recipe
-    private lateinit var currentUser: User
+
     private val recipeRepo = RecipeRepository.shared
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshRecipes()
+        viewModel.refreshUsers()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,34 +49,43 @@ class ManageRecipe : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        currentRecipe = args.recipe
-        currentUser = args.user ?: User("Unknown", "", "", 0)
 
-        populateRecipeDetails()
         setupIngredientsRecycler()
         setupStepsRecycler()
         setupTagsRecycler()
-        setupButtons()
+
+        viewModel.init(args.recipeId, args.userId)
+
+        observeRecipe()
     }
 
-    private fun populateRecipeDetails() {
-        binding.viewRecipeTitle.text = currentRecipe.name
-        binding.viewRecipeDescription.text = currentRecipe.description
-        binding.viewRecipeTime.text = currentRecipe.time
-        binding.viewRecipeDifficulty.text = currentRecipe.difficulty
-        binding.viewRecipeServings.text = currentRecipe.servings.toString()
-        binding.viewRecipeNotes.text = currentRecipe.notes
-        currentRecipe.pictureUrl?.let {
-            if (it.isNotBlank()) {
-                Picasso.get()
-                    .load(it)
-                    .into(binding.viewRecipeImage)
-            }
+    private fun observeRecipe() {
+        viewModel.currentRecipe.observe(viewLifecycleOwner) { recipe ->
+            recipe ?: return@observe
+            populateRecipeDetails(recipe)
+            setupButtons(recipe)
         }
     }
 
+    private fun populateRecipeDetails(recipe: Recipe) {
+        binding.viewRecipeTitle.text = recipe.name
+        binding.viewRecipeDescription.text = recipe.description
+        binding.viewRecipeTime.text = recipe.time
+        binding.viewRecipeDifficulty.text = recipe.difficulty
+        binding.viewRecipeServings.text = recipe.servings.toString()
+        binding.viewRecipeNotes.text = recipe.notes
+        recipe.pictureUrl?.let {
+            if (it.isNotBlank()) {
+                Picasso.get().load(it).into(binding.viewRecipeImage)
+            }
+        }
+        ingredientsAdapter.updateIngredients(recipe.ingredients)
+        stepsAdapter.updateSteps(recipe.steps)
+        tagsAdapter.updateTags(recipe.tags)
+    }
+
     private fun setupIngredientsRecycler() {
-        ingredientsAdapter = ViewIngredientsViewAdapter(currentRecipe.ingredients)
+        ingredientsAdapter = ViewIngredientsViewAdapter(emptyList())
         binding.viewRecipeIngredientsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ingredientsAdapter
@@ -78,7 +94,7 @@ class ManageRecipe : Fragment() {
     }
 
     private fun setupStepsRecycler() {
-        stepsAdapter = ViewStepsViewAdapter(currentRecipe.steps)
+        stepsAdapter = ViewStepsViewAdapter(emptyList())
         binding.viewRecipeStepsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = stepsAdapter
@@ -87,7 +103,7 @@ class ManageRecipe : Fragment() {
     }
 
     private fun setupTagsRecycler() {
-        tagsAdapter = ViewTagsViewAdapter(currentRecipe.tags)
+        tagsAdapter = ViewTagsViewAdapter(emptyList())
         binding.viewRecipeTagsRecyclerView.apply {
             layoutManager = FlexboxLayoutManager(requireContext()).apply {
                 flexDirection = FlexDirection.ROW
@@ -98,15 +114,13 @@ class ManageRecipe : Fragment() {
         }
     }
 
-    private fun setupButtons() {
+    private fun setupButtons(recipe: Recipe) {
         binding.editRecipeBtn.setOnClickListener {
-            val action = ManageRecipeDirections.actionManageRecipeToEditRecipe(
-                recipe = currentRecipe,
-            )
+            val action = ManageRecipeDirections.actionManageRecipeToEditRecipe(recipe = recipe)
             findNavController().navigate(action)
         }
         binding.deleteRecipeBtn.setOnClickListener {
-            recipeRepo.deleteRecipe(currentRecipe) {}
+            recipeRepo.deleteRecipe(recipe) {}
             findNavController().popBackStack()
         }
     }

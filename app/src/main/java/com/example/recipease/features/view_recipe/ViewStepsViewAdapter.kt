@@ -6,8 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemViewStepBinding
 
 class ViewStepsViewAdapter(
-    private val steps: List<String>
+    private var steps: List<String>
 ) : RecyclerView.Adapter<ViewStepViewHolder>() {
+
+    fun updateSteps(newSteps: List<String>) {
+        steps = newSteps
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewStepViewHolder {
         val binding = ItemViewStepBinding.inflate(

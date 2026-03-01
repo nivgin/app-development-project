@@ -6,8 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemTagBinding
 
 class ViewTagsViewAdapter(
-    private val tags: List<String>
+    private var tags: List<String>
 ) : RecyclerView.Adapter<ViewTagViewHolder>() {
+
+    fun updateTags(newTags: List<String>) {
+        tags = newTags
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewTagViewHolder {
         val binding = ItemTagBinding.inflate(
