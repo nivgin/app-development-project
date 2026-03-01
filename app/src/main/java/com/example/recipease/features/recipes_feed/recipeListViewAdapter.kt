@@ -8,7 +8,7 @@ import com.example.recipease.model.Recipe
 import com.example.recipease.features.recipes_feed.RecipesFeedViewModel.RecipeWithUser
 
 interface OnRecipeClickListener {
-    fun onRecipeClick(recipe: Recipe, position: Int)
+    fun onRecipeClick(recipeWithUser: RecipeWithUser, position: Int)
 }
 
 class recipeListViewAdapter(

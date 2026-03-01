@@ -13,6 +13,7 @@ import com.example.recipease.model.Recipe
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.example.recipease.features.recipes_feed.RecipesFeedViewModel.RecipeWithUser
 
 class RecipesFeedFragment : Fragment() {
     private lateinit var binding: FragmentRecipesFeedBinding
@@ -54,8 +55,8 @@ class RecipesFeedFragment : Fragment() {
         recipesAdapter = recipeListViewAdapter(emptyList())
         binding.RecipesRecycler.adapter = recipesAdapter
         recipesAdapter.listener = object : OnRecipeClickListener {
-            override fun onRecipeClick(recipe: Recipe, position: Int) {
-                onRecipeClickAction(recipe, position)
+            override fun onRecipeClick(recipeWithUser: RecipeWithUser, position: Int) {
+                onRecipeClickAction(recipeWithUser, position)
             }
         }
 
@@ -81,9 +82,9 @@ class RecipesFeedFragment : Fragment() {
         }
     }
 
-    private fun onRecipeClickAction(recipe: Recipe, position: Int) {
+    private fun onRecipeClickAction(recipeWithUser: RecipeWithUser, position: Int) {
         val action = RecipesFeedFragmentDirections
-            .actionRecipesFeedToViewRecipe(recipe)
+            .actionRecipesFeedToViewRecipe(recipeWithUser.recipe.id, recipeWithUser.user?.id)
 
         findNavController().navigate(action)
     }

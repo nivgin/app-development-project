@@ -7,8 +7,13 @@ import com.example.recipease.databinding.ItemViewIngredientBinding
 import com.example.recipease.model.Ingredient
 
 class ViewIngredientsViewAdapter(
-    private val ingredients: List<Ingredient>
+    private var ingredients: List<Ingredient>
 ) : RecyclerView.Adapter<ViewIngredientViewHolder>() {
+
+    fun updateIngredients(newIngredients: List<Ingredient>) {
+        ingredients = newIngredients
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewIngredientViewHolder {
         val binding = ItemViewIngredientBinding.inflate(
