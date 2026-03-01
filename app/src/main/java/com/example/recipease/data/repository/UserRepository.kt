@@ -24,7 +24,7 @@ class UserRepository private constructor() {
         val shared = UserRepository()
     }
 
-    fun refreshUsers() {
+    fun refreshUsers(completion: () -> Unit = {}) {
         firebaseModel.getAllUsers(User.lastUpdated) { fetchedUsers ->
             executor.execute {
                 var time = User.lastUpdated
@@ -38,6 +38,7 @@ class UserRepository private constructor() {
                 }
                 User.lastUpdated = time
             }
+            completion()
         }
     }
 

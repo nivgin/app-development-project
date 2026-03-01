@@ -25,7 +25,7 @@ class TagsRepository private constructor() {
         }
     }
 
-    fun refreshTags() {
+    fun refreshTags(completion: () -> Unit = {}) {
         val lastUpdated = Tags.lastUpdated
 
         firebaseModel.getTags(lastUpdated) { fetchedTags ->
@@ -39,6 +39,7 @@ class TagsRepository private constructor() {
                     }
                 }
             }
+            completion()
         }
     }
 }
