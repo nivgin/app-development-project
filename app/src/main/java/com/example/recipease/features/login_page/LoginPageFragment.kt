@@ -57,19 +57,11 @@ class LoginPageFragment : Fragment() {
         binding.loadingIndicator.visibility = View.GONE
 
         binding.tabSignIn.setOnClickListener {
-            binding.tabSignIn.isSelected = true
-            binding.tabSignUp.isSelected = false
-            binding.btnSignIn.text = "Sign In"
-            changeSignupVisibility(View.GONE)
-            signInValidator.update()
+            switchPageMode(true)
         }
 
         binding.tabSignUp.setOnClickListener {
-            binding.tabSignIn.isSelected = false
-            binding.tabSignUp.isSelected = true
-            binding.btnSignIn.text = "Sign Up"
-            changeSignupVisibility(View.VISIBLE)
-            signUpValidator.update()
+            switchPageMode(false)
         }
 
         binding.btnSignIn.setOnClickListener {
@@ -170,6 +162,14 @@ class LoginPageFragment : Fragment() {
                 binding.btnSignIn.alpha = if (valid) 1f else 0.5f
             }
         }
+    }
+
+    private fun switchPageMode(signIn: Boolean) {
+        binding.tabSignIn.isSelected = signIn
+        binding.tabSignUp.isSelected = !signIn
+        binding.btnSignIn.text = if (signIn) "Sign In" else "Sign Up"
+        changeSignupVisibility(if (signIn) View.GONE else View.VISIBLE)
+        if (signIn) signInValidator.update() else signUpValidator.update()
     }
 
     fun changeSignupVisibility(state: Int) {
