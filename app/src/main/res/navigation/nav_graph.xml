@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_ProfilePage_to_ManageRecipe"
             app:destination="@id/ManageRecipe" />
+        <action
+            android:id="@+id/action_ProfilePage_to_LoginPage"
+            app:destination="@id/LoginPage" />
     </fragment>
     <fragment android:id="@+id/AddRecipe"
         android:name="com.example.recipease.features.add_recipe.AddRecipeFragment"

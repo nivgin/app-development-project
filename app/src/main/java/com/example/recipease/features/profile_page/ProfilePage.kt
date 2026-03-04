@@ -19,6 +19,10 @@ import com.example.recipease.model.Recipe
 import com.example.recipease.data.repository.UserRepository
 import com.squareup.picasso.Picasso
 import android.graphics.drawable.BitmapDrawable
+import com.example.recipease.utils.FormValidator
+import com.example.recipease.utils.asFormField
+import com.example.recipease.utils.asImageField
+import com.example.recipease.utils.asListField
 
 class ProfilePage : Fragment() {
 
@@ -27,15 +31,13 @@ class ProfilePage : Fragment() {
     private val viewModel: ProfilePageViewModel by viewModels()
     private var cameraLauncher: ActivityResultLauncher<Void?>? = null
 
+    private lateinit var formValidator: FormValidator
+
 
     override fun onResume() {
         super.onResume()
         viewModel.refreshRecipes()
         viewModel.refreshUser()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -53,6 +55,12 @@ class ProfilePage : Fragment() {
             } ?: Toast.makeText(context, "No image captured", Toast.LENGTH_SHORT).show()
         }
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.editProfilePhotoPicker.setOnClickListener {
             cameraLauncher?.launch(null)
         }
@@ -65,27 +73,18 @@ class ProfilePage : Fragment() {
             exitEditMode()
         }
 
-        binding.saveProfileBtn.setOnClickListener {
-            val newName = binding.editNameInput.text.toString().trim()
-            val currentUser = viewModel.connectedUser.value ?: return@setOnClickListener
-
-            val imageBitmap = (binding.editProfileImagePreview.drawable as BitmapDrawable).bitmap
-
-            val updatedUser = currentUser.copy(displayName = newName)
-            UserRepository.shared.addUser(updatedUser, imageBitmap) {
-                viewModel.refreshUser()
-            }
-            exitEditMode()
+        binding.logoutBtn.setOnClickListener {
+            logOut()
         }
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.saveProfileBtn.setOnClickListener {
+            saveUser()
+        }
 
         observeRecipes()
         observeConnectedUser()
+        observeLoading()
+        validateForm()
     }
 
     private fun observeConnectedUser() {
@@ -101,10 +100,48 @@ class ProfilePage : Fragment() {
         }
     }
 
+    private fun validateForm() {
+        formValidator = FormValidator()
+
+        formValidator.addField(binding.editNameInput.asFormField { it.isNotBlank() })
+
+        formValidator.isValid.observe(viewLifecycleOwner) { valid ->
+            binding.saveProfileBtn.isEnabled = valid
+            binding.saveProfileBtn.alpha = if (valid) 1f else 0.5f
+        }
+    }
+
+    private fun observeLoading() {
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshRecipes()
+            viewModel.refreshUser()
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            binding.loadingIndicator.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.swipeRefresh.isRefreshing = loading
+        }
+    }
+
     private fun observeRecipes() {
         viewModel.userRecipes.observe(viewLifecycleOwner) { recipes ->
             profileRecipeAdapter.updateList(recipes)
         }
+    }
+
+    private fun saveUser() {
+        viewModel.startLoading()
+
+        val newName = binding.editNameInput.text.toString().trim()
+        val currentUser = viewModel.connectedUser.value ?: return
+
+        val imageBitmap = (binding.editProfileImagePreview.drawable as BitmapDrawable).bitmap
+
+        val updatedUser = currentUser.copy(displayName = newName)
+        UserRepository.shared.addUser(updatedUser, imageBitmap) {
+            viewModel.refreshUser()
+            viewModel.stopLoading()
+        }
+        exitEditMode()
     }
 
     private fun enterEditMode() {
@@ -122,6 +159,11 @@ class ProfilePage : Fragment() {
     private fun exitEditMode() {
         binding.editProfileCard.visibility = View.GONE
         binding.profileCard.visibility = View.VISIBLE
+    }
+
+    private fun logOut() {
+        FirebaseAuthModel.shared.signOut()
+        findNavController().navigate(ProfilePageDirections.actionProfilePageToLoginPage())
     }
 
     private fun setupRecipeRecyclerView() {
