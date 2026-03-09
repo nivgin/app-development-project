@@ -2,8 +2,6 @@ package com.example.recipease.data.repository
 
 import android.util.Log
 import com.example.recipease.data.networking.NetworkClient
-import com.example.recipease.model.FoodResponse
-import com.example.recipease.model.FreeLanguageBody
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,20 +13,19 @@ class FoodsRepository private constructor() {
         private const val TAG = "FoodsRepository"
     }
 
-    fun getFoodsFreeLanguage(userInput: String): JsonObject? {
+    fun searchFoods(expression: String): String? {
         try {
 
-            val body = FreeLanguageBody(userInput = userInput)
-            val response = NetworkClient.foodsApiClient.getFoodsFreeLanguage(body).execute()
+            val response = NetworkClient.foodsApiClientSignpost.getFoodsFreeLanguage(expression).execute()
 
             if (response.isSuccessful) {
-                return response.body()
+                return response.body()?.string()
             } else {
                 Log.e(TAG, "getFoodsFreeLanguage failed: ${response.code()} ${response.message()}")
                 return null
             }
         } catch (e: Exception) {
-            Log.e(TAG, "getFoodsFreeLanguage error: ${e.message}")
+            Log.e(TAG, "searchFoods error: ${e.message}")
             return null
         }
     }

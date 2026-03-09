@@ -1,7 +1,5 @@
 package com.example.recipease.data.networking
 
-import com.example.recipease.model.FoodResponse
-import com.example.recipease.model.FreeLanguageBody
 import com.example.recipease.model.TokenResponse
 import retrofit2.Call
 import retrofit2.http.POST

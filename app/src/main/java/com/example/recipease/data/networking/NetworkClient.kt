@@ -1,76 +1,41 @@
 package com.example.recipease.data.networking
 
+import android.net.Uri
 import android.util.Base64
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.recipease.data.repository.TokenRepository
-
-class FoodsAuthInterceptor : Interceptor {
-
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val token = TokenRepository.shared.getValidToken()
-        val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer $token")
-            .addHeader("accept", "application/json")
-            .build()
-
-        return chain.proceed(request)
-    }
-}
-
-class FoodsAuthGenerationInterceptor : Interceptor {
-
-    companion object {
-        private const val CLIENT_ID = ""
-        private const val CLIENT_SECRET = ""
-    }
-
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val credentials = "${CLIENT_ID}:${CLIENT_SECRET}"
-        val encoded = Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
-
-        val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Basic $encoded")
-            .build()
-
-        return chain.proceed(request)
-    }
-}
+import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
 object NetworkClient {
 
+    private const val CONSUMER_KEY = "b0f0861ed7f745aeba4bdd7e24bdf2f3"
+    private const val CONSUMER_SECRET = "21698085c0fa41df84195f8cf35d9fe9"
+
+    private val signpostOAuthConsumer by lazy {
+        OkHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET)
+    }
+
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(FoodsAuthInterceptor())
+            .addInterceptor { chain ->
+                val signed = signpostOAuthConsumer.sign(chain.request()).unwrap() as okhttp3.Request
+                chain.proceed(signed)
+            }
             .build()
     }
 
-    private val okHttpClientAuth: OkHttpClient by lazy {
-        OkHttpClient.Builder()
-            .addInterceptor(FoodsAuthGenerationInterceptor())
-            .build()
-    }
-
-    val foodsAuthClient: FoodAuthClient by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://oauth.fatsecret.com/")
-            .client(okHttpClientAuth)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        retrofit.create(FoodAuthClient::class.java)
-    }
-
-    val foodsApiClient: FoodClient by lazy {
-        val retrofit = Retrofit.Builder()
+    val foodsApiClientSignpost: FoodClient by lazy {
+        Retrofit.Builder()
             .baseUrl("https://platform.fatsecret.com/rest/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-        retrofit.create(FoodClient::class.java)
+            .create(FoodClient::class.java)
     }
 }

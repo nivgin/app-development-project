@@ -77,6 +77,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("se.akerfeldt:okhttp-signpost:1.1.0")
+    implementation("oauth.signpost:signpost-core:2.1.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
