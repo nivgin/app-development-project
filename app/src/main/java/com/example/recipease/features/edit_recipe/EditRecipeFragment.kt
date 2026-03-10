@@ -121,9 +121,14 @@ class EditRecipeFragment : Fragment() {
     }
 
     private fun setupIngredients() {
-        ingredientsAdapter = IngredientsViewAdapter(currentRecipe.ingredients.toMutableList()) { updatedIngredients ->
-            recipeIngredients = updatedIngredients.toList()
-        }
+        ingredientsAdapter = IngredientsViewAdapter(
+            ingredients = currentRecipe.ingredients.toMutableList(),
+            onSearchFood = { query, onResults -> viewModel.searchFoods(query, onResults) },
+            onGetFoodById = { foodId, onResult -> viewModel.getFoodById(foodId, onResult) },
+            onListChanged = { updatedIngredients ->
+                recipeIngredients = updatedIngredients.toList()
+            }
+        )
         binding.ingredientsRecycler.adapter = ingredientsAdapter
         binding.ingredientsRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.addIngredientBtn.setOnClickListener {

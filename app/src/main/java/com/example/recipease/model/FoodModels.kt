@@ -10,10 +10,10 @@ import java.lang.reflect.Type
 // --- Foods Search Response ---
 
 data class FoodsSearchResponse(
-    @SerializedName("foods") val foods: FoodsSearchResult
+    @SerializedName("foods") val foods: FoodsSearchBody
 )
 
-data class FoodsSearchResult(
+data class FoodsSearchBody(
     @SerializedName("food") val food: List<FoodSearchItem>,
     @SerializedName("max_results") val maxResults: String,
     @SerializedName("page_number") val pageNumber: String,
@@ -29,6 +29,33 @@ data class FoodSearchItem(
     @SerializedName("food_url") val foodUrl: String? = null
 )
 
+data class ModifiedServing(
+    val servingType: String,
+    val normalizedNutritionalContent: NutritionalContent
+)
+
+data class NutritionalContent(
+    val calories: Double,
+    val carbohydrate: Double,
+    val protein: Double,
+    val fat: Double,
+    val saturatedFat: Double?,
+    val polyunsaturatedFat: Double?,
+    val monounsaturatedFat: Double?,
+    val transFat: Double?,
+    val cholesterol: Double?,
+    val sodium: Double?,
+    val potassium: Double?,
+    val fiber: Double?,
+    val sugar: Double?,
+    val addedSugars: Double?,
+    val vitaminD: Double?,
+    val vitaminA: Double?,
+    val vitaminC: Double?,
+    val calcium: Double?,
+    val iron: Double?
+)
+
 data class FoodIdSearchResponse(
     @SerializedName("food") val food: Food
 )
@@ -39,7 +66,11 @@ data class Food(
     @SerializedName("brand_name") val brandName: String? = null,
     @SerializedName("food_type") val foodType: String,
     @SerializedName("food_url") val foodUrl: String? = null,
-    @SerializedName("servings") val servings: List<Serving>
+    @SerializedName("servings") val servings: ServingList
+)
+
+data class ServingList(
+    @SerializedName("serving") val serving: List<Serving>
 )
 
 data class Serving(
@@ -48,26 +79,26 @@ data class Serving(
     @SerializedName("serving_url") val servingUrl: String? = null,
     @SerializedName("metric_serving_amount") val metricServingAmount: String? = null,
     @SerializedName("metric_serving_unit") val metricServingUnit: String? = null,
-    @SerializedName("number_of_units") val numberOfUnits: String? = null,
+    @SerializedName("number_of_units") val numberOfUnits: Double? = null,
     @SerializedName("measurement_description") val measurementDescription: String? = null,
     @SerializedName("is_default") val isDefault: String? = null,
-    @SerializedName("calories") val calories: String,
-    @SerializedName("carbohydrate") val carbohydrate: String,
-    @SerializedName("protein") val protein: String,
-    @SerializedName("fat") val fat: String,
-    @SerializedName("saturated_fat") val saturatedFat: String? = null,
-    @SerializedName("polyunsaturated_fat") val polyunsaturatedFat: String? = null,
-    @SerializedName("monounsaturated_fat") val monounsaturatedFat: String? = null,
-    @SerializedName("trans_fat") val transFat: String? = null,
-    @SerializedName("cholesterol") val cholesterol: String? = null,
-    @SerializedName("sodium") val sodium: String? = null,
-    @SerializedName("potassium") val potassium: String? = null,
-    @SerializedName("fiber") val fiber: String? = null,
-    @SerializedName("sugar") val sugar: String? = null,
-    @SerializedName("added_sugars") val addedSugars: String? = null,
-    @SerializedName("vitamin_d") val vitaminD: String? = null,
-    @SerializedName("vitamin_a") val vitaminA: String? = null,
-    @SerializedName("vitamin_c") val vitaminC: String? = null,
-    @SerializedName("calcium") val calcium: String? = null,
-    @SerializedName("iron") val iron: String? = null
+    @SerializedName("calories") val calories: Double,
+    @SerializedName("carbohydrate") val carbohydrate: Double,
+    @SerializedName("protein") val protein: Double,
+    @SerializedName("fat") val fat: Double,
+    @SerializedName("saturated_fat") val saturatedFat: Double? = null,
+    @SerializedName("polyunsaturated_fat") val polyunsaturatedFat: Double? = null,
+    @SerializedName("monounsaturated_fat") val monounsaturatedFat: Double? = null,
+    @SerializedName("trans_fat") val transFat: Double? = null,
+    @SerializedName("cholesterol") val cholesterol: Double? = null,
+    @SerializedName("sodium") val sodium: Double? = null,
+    @SerializedName("potassium") val potassium: Double? = null,
+    @SerializedName("fiber") val fiber: Double? = null,
+    @SerializedName("sugar") val sugar: Double? = null,
+    @SerializedName("added_sugars") val addedSugars: Double? = null,
+    @SerializedName("vitamin_d") val vitaminD: Double? = null,
+    @SerializedName("vitamin_a") val vitaminA: Double? = null,
+    @SerializedName("vitamin_c") val vitaminC: Double? = null,
+    @SerializedName("calcium") val calcium: Double? = null,
+    @SerializedName("iron") val iron: Double? = null
 )

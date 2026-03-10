@@ -2,9 +2,8 @@ package com.example.recipease.data.repository
 
 import android.util.Log
 import com.example.recipease.data.networking.NetworkClient
-import com.google.gson.JsonObject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.recipease.model.FoodIdSearchResponse
+import com.example.recipease.model.FoodsSearchResponse
 
 class FoodsRepository private constructor() {
 
@@ -13,19 +12,36 @@ class FoodsRepository private constructor() {
         private const val TAG = "FoodsRepository"
     }
 
-    fun searchFoods(expression: String): String? {
+    fun searchFoods(expression: String): FoodsSearchResponse? {
         try {
 
-            val response = NetworkClient.foodsApiClientSignpost.getFoodsFreeLanguage(expression).execute()
+            val response = NetworkClient.foodsApiClientSignpost.searchFoods(expression).execute()
 
             if (response.isSuccessful) {
-                return response.body()?.string()
+                return response.body()
             } else {
-                Log.e(TAG, "getFoodsFreeLanguage failed: ${response.code()} ${response.message()}")
+                Log.e(TAG, "searchFoods: failed: ${response.code()} ${response.message()}")
                 return null
             }
         } catch (e: Exception) {
-            Log.e(TAG, "searchFoods error: ${e.message}")
+            Log.e(TAG, "searchFoods: error: ${e.message}")
+            return null
+        }
+    }
+
+    fun getFoodById(foodId: String): FoodIdSearchResponse? {
+        try {
+
+            val response = NetworkClient.foodsApiClientSignpost.getFoodById(foodId).execute()
+
+            if (response.isSuccessful) {
+                return response.body()
+            } else {
+                Log.e(TAG, "getFoodById: ${response.code()} ${response.message()}")
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "getFoodByIds: error: ${e.message}")
             return null
         }
     }
