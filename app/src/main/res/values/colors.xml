@@ -13,6 +13,7 @@
     <color name="medium_gray">#757575</color>
     <color name="light_gray">#BDBDBD</color>
     <color name="very_light_gray">#E0E0E0</color>
-    <color name="light_red">#22FF0000</color>
+    <color name="light_red">#DB4747</color>
     <color name="dim">#99000000</color>
+    <color name="healthy_green">#76C57C</color>
 </resources>

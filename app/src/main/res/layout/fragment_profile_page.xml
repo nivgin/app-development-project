@@ -41,7 +41,7 @@
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="Log Out"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:backgroundTint="@color/light_red"

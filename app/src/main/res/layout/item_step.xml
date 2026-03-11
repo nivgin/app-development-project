@@ -46,6 +46,7 @@
         android:src="@drawable/ic_trash"
         android:background="@drawable/bg_delete_button"
         android:padding="12dp"
+        app:tint="@color/white"
         android:contentDescription="Delete step"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

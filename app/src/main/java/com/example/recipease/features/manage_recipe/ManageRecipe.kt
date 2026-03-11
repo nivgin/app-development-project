@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -120,9 +121,16 @@ class ManageRecipe : Fragment() {
             findNavController().navigate(action)
         }
         binding.deleteRecipeBtn.setOnClickListener {
-            recipeRepo.deleteRecipe(recipe) {}
-            findNavController().popBackStack()
+            binding.loadingIndicator.visibility = View.VISIBLE
+            recipeRepo.deleteRecipe(recipe) {
+                dismiss()
+                binding.loadingIndicator.visibility = View.GONE
+            }
         }
+    }
+
+    private fun dismiss() {
+        view?.findNavController()?.popBackStack()
     }
 }
 
