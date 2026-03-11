@@ -1,10 +1,12 @@
 package com.example.recipease.model
 
+import android.os.Parcelable
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.lang.reflect.Type
 
 // --- Foods Search Response ---
@@ -20,6 +22,7 @@ data class FoodsSearchBody(
     @SerializedName("total_results") val totalResults: String
 )
 
+@Parcelize
 data class FoodSearchItem(
     @SerializedName("food_id") val foodId: String,
     @SerializedName("food_name") val foodName: String,
@@ -27,13 +30,15 @@ data class FoodSearchItem(
     @SerializedName("food_type") val foodType: String,
     @SerializedName("food_description") val foodDescription: String? = null,
     @SerializedName("food_url") val foodUrl: String? = null
-)
+) : Parcelable
 
+@Parcelize
 data class ModifiedServing(
     val servingType: String,
     val normalizedNutritionalContent: NutritionalContent
-)
+) : Parcelable
 
+@Parcelize
 data class NutritionalContent(
     val calories: Double,
     val carbohydrate: Double,
@@ -54,7 +59,7 @@ data class NutritionalContent(
     val vitaminC: Double?,
     val calcium: Double?,
     val iron: Double?
-)
+) : Parcelable
 
 data class FoodIdSearchResponse(
     @SerializedName("food") val food: Food

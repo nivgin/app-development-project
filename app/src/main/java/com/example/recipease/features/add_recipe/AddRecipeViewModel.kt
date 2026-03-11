@@ -1,5 +1,6 @@
 package com.example.recipease.features.add_recipe
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,6 +37,7 @@ class AddRecipeViewModel : ViewModel() {
 
     fun searchFoods(query: String, onResults: (List<FoodSearchItem>) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.i("TEST", "VIEWMODEL Searching for foods with query: $query")
             val results = foodsRepo.searchFoods(query)
             val items = results?.foods?.food ?: emptyList()
             withContext(Dispatchers.Main) {
@@ -46,6 +48,7 @@ class AddRecipeViewModel : ViewModel() {
 
     fun getFoodById(foodId: String, onResult: (FoodIdSearchResponse?) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.i("TEST", "VIEWMODEL id foods with id: $foodId")
             val result = foodsRepo.getFoodById(foodId)
             withContext(Dispatchers.Main) {
                 onResult(result)

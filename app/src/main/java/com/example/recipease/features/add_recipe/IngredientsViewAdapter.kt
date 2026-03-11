@@ -7,6 +7,7 @@ import com.example.recipease.databinding.ItemIngredientBinding
 import com.example.recipease.model.FoodIdSearchResponse
 import com.example.recipease.model.FoodSearchItem
 import com.example.recipease.model.Ingredient
+import com.example.recipease.model.ModifiedServing
 
 class IngredientsViewAdapter(
     private val ingredients: MutableList<Ingredient>,

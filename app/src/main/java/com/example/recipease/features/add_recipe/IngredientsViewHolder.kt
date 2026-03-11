@@ -1,8 +1,9 @@
 package com.example.recipease.features.add_recipe
 
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Filter
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemIngredientBinding
@@ -28,8 +29,17 @@ class IngredientsViewHolder(
     private var onChanged: ((Int, Ingredient) -> Unit)? = null
     private var onDelete: ((Int) -> Unit)? = null
     private var lastResults: List<FoodSearchItem> = emptyList()
+    private var suppressTextClear = false
     var selectedServings: List<ModifiedServing> = emptyList()
         private set
+
+    private val servingSpinnerAdapter = ArrayAdapter<String>(
+        binding.root.context,
+        android.R.layout.simple_spinner_item,
+        mutableListOf()
+    ).also {
+        it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+    }
 
     private fun selectFood(food: FoodSearchItem) {
         onGetFoodById(food.foodId) { response ->
@@ -62,64 +72,57 @@ class IngredientsViewHolder(
                     )
                 )
             } ?: emptyList()
-            Log.i("IngredientsViewHolder", "servings: $selectedServings")
-            binding.etAmount.isEnabled = selectedServings.isNotEmpty()
-            servingAdapter.clear()
-            servingAdapter.addAll(selectedServings.map { it.servingType })
-            servingAdapter.notifyDataSetChanged()
-            binding.etServing.setText("")
+            Log.i("TEST", "servings: $selectedServings")
+            servingSpinnerAdapter.clear()
+            servingSpinnerAdapter.addAll(selectedServings.map { it.servingType })
+            servingSpinnerAdapter.notifyDataSetChanged()
             binding.etServing.isEnabled = selectedServings.isNotEmpty()
+            binding.etAmount.isEnabled = selectedServings.isNotEmpty()
+            currentIngredient?.food = food
+            currentIngredient?.serving = null
         }
     }
 
-    private val suggestionAdapter = object : ArrayAdapter<String>(
-        binding.root.context,
-        android.R.layout.simple_dropdown_item_1line,
-        mutableListOf()
-    ) {
-        private val noOpFilter = object : Filter() {
-            override fun performFiltering(constraint: CharSequence?) = FilterResults()
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {}
-        }
-        override fun getFilter() = noOpFilter
+    private fun notifyChanged() {
+        val ingredient = currentIngredient ?: return
+        val pos = bindingAdapterPosition
+        if (pos != RecyclerView.NO_POSITION) onChanged?.invoke(pos, ingredient)
     }
 
-    private val servingAdapter = ArrayAdapter<String>(
-        binding.root.context,
-        android.R.layout.simple_dropdown_item_1line,
-        mutableListOf()
-    )
+    fun setServing(serving: ModifiedServing) {
+        selectedServings = listOf(serving)
+        servingSpinnerAdapter.clear()
+        servingSpinnerAdapter.add(serving.servingType)
+        servingSpinnerAdapter.notifyDataSetChanged()
+        binding.etServing.setSelection(0)
+        binding.etServing.isEnabled = true
+        currentIngredient?.serving = serving
+    }
 
     init {
-        binding.etIngredient.setAdapter(suggestionAdapter)
         binding.etIngredient.threshold = 2
         binding.etAmount.isEnabled = false
-        binding.etServing.setAdapter(servingAdapter)
-        binding.etServing.threshold = 0
+        binding.etServing.adapter = servingSpinnerAdapter
         binding.etServing.isEnabled = false
 
+        // These listeners must be in init instead of bind. because these functions add instead of
+        // setting, if they were in bind, we could get multiple listeners at the same time.
         binding.etAmount.addTextChangedListener { text ->
             val ingredient = currentIngredient ?: return@addTextChangedListener
-            val pos = bindingAdapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
-                ingredient.amount = text?.toString().orEmpty()
-                onChanged?.invoke(pos, ingredient)
-            }
+            ingredient.amount = text?.toString()?.toDoubleOrNull() ?: 0.0
+            notifyChanged()
         }
 
         binding.etIngredient.addTextChangedListener { text ->
             val ingredient = currentIngredient ?: return@addTextChangedListener
-            val pos = bindingAdapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
-                ingredient.name = text?.toString().orEmpty()
-                onChanged?.invoke(pos, ingredient)
-            }
 
-            // If the user typed manually, clear selectedServings
-            if (selectedServings.isNotEmpty()) {
+            // If the user typed manually (not from a food selection), clear food/serving
+            if (!suppressTextClear && selectedServings.isNotEmpty()) {
                 selectedServings = emptyList()
-                servingAdapter.clear()
-                binding.etServing.setText("")
+                ingredient.food = null
+                ingredient.serving = null
+                servingSpinnerAdapter.clear()
+                servingSpinnerAdapter.notifyDataSetChanged()
                 binding.etServing.isEnabled = false
                 binding.etAmount.isEnabled = false
                 binding.etAmount.setText("")
@@ -129,14 +132,16 @@ class IngredientsViewHolder(
             if (query.length < 2) return@addTextChangedListener
 
             searchJob?.cancel()
-            searchJob = CoroutineScope(Dispatchers.Main).launch {
-                delay(300)
-                onSearchFood(query) { results ->
-                    lastResults = results
-                    suggestionAdapter.clear()
-                    suggestionAdapter.addAll(results.map { it.foodName })
-                    suggestionAdapter.notifyDataSetChanged()
-                    binding.etIngredient.showDropDown()
+            if (!suppressTextClear) {
+                searchJob = CoroutineScope(Dispatchers.Main).launch {
+                    delay(300)
+                    Log.i("TEST", "Searching for: $query")
+                    onSearchFood(query) { results ->
+                        Log.i("TEST", "Completed search for $query $results")
+                        lastResults = results
+                        binding.etIngredient.setSimpleItems(results.map { it.foodName }.toTypedArray())
+                        binding.etIngredient.showDropDown()
+                    }
                 }
             }
         }
@@ -151,37 +156,42 @@ class IngredientsViewHolder(
         this.onChanged = onChanged
         this.onDelete = onDelete
 
-        binding.etAmount.setText(ingredient.amount)
-        binding.etIngredient.setText(ingredient.name)
+        // Populate fields from ingredient
+        binding.etIngredient.setText(ingredient.food?.foodName ?: "", false)
+        binding.etAmount.setText(ingredient.amount.toString())
+        if (selectedServings.isEmpty()) {
+            ingredient.serving?.let {
+                setServing(it)
+            }
+        }
 
         // Restore amount/serving enabled state based on whether servings are already loaded
         binding.etAmount.isEnabled = selectedServings.isNotEmpty()
         binding.etServing.isEnabled = selectedServings.isNotEmpty()
 
         binding.etIngredient.setOnItemClickListener { _, _, position, _ ->
-            val selected = suggestionAdapter.getItem(position) ?: return@setOnItemClickListener
-            val food = lastResults.getOrNull(position) ?: return@setOnItemClickListener
+            val selected = lastResults.getOrNull(position) ?: return@setOnItemClickListener
             searchJob?.cancel()
-            selectFood(food)
-            ingredient.name = selected
-            binding.etAmount.isEnabled = true
-            val pos = bindingAdapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
-                onChanged(pos, ingredient)
-            }
+            suppressTextClear = true
+            selectFood(selected)
+            binding.etIngredient.setText(selected.foodName, false)
+            suppressTextClear = false
+            notifyChanged()
         }
 
-        binding.etServing.setOnClickListener {
-            binding.etServing.showDropDown()
+        binding.etServing.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val serving = selectedServings.getOrNull(position) ?: return
+                ingredient.serving = serving
+                notifyChanged()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         binding.btnDelete.setOnClickListener {
             val pos = bindingAdapterPosition
-            if (pos != RecyclerView.NO_POSITION) {
-                onDelete(pos)
-            }
+            if (pos != RecyclerView.NO_POSITION) onDelete.invoke(pos)
         }
     }
 }
-
-

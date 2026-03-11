@@ -23,25 +23,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Serving AutoCompleteTextView -->
-    <AutoCompleteTextView
+    <!-- Serving Dropdown -->
+    <Spinner
         android:id="@+id/etServing"
         android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:hint="Serving"
-        android:textSize="14sp"
-        android:inputType="text"
+        android:layout_height="0dp"
         android:padding="12dp"
         android:background="@drawable/bg_edittext"
         android:layout_marginEnd="8dp"
-        android:completionThreshold="1"
         app:layout_constraintStart_toEndOf="@id/etAmount"
         app:layout_constraintEnd_toStartOf="@id/etIngredient"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/etIngredient"
+        app:layout_constraintBottom_toBottomOf="@id/etIngredient" />
 
     <!-- Ingredient AutoCompleteTextView -->
-    <AutoCompleteTextView
+    <com.google.android.material.textfield.MaterialAutoCompleteTextView
         android:id="@+id/etIngredient"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -52,6 +48,7 @@
         android:background="@drawable/bg_edittext"
         android:layout_marginEnd="8dp"
         android:completionThreshold="2"
+        android:dropDownWidth="match_parent"
         app:layout_constraintStart_toEndOf="@id/etServing"
         app:layout_constraintEnd_toStartOf="@id/btnDelete"
         app:layout_constraintTop_toTopOf="parent"

@@ -17,14 +17,11 @@ object NetworkClient {
     private const val CONSUMER_KEY = "b0f0861ed7f745aeba4bdd7e24bdf2f3"
     private const val CONSUMER_SECRET = "21698085c0fa41df84195f8cf35d9fe9"
 
-    private val signpostOAuthConsumer by lazy {
-        OkHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET)
-    }
-
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val signed = signpostOAuthConsumer.sign(chain.request()).unwrap() as okhttp3.Request
+                val consumer = OkHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET)
+                val signed = consumer.sign(chain.request()).unwrap() as okhttp3.Request
                 chain.proceed(signed)
             }
             .build()

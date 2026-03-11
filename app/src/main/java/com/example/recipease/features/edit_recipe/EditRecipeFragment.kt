@@ -215,7 +215,7 @@ class EditRecipeFragment : Fragment() {
         val ingredientsField = binding.ingredientsRecycler.asListField(
             provider = { recipeIngredients },
             validator = { list ->
-                list.isNotEmpty() && list.all { it.name.isNotBlank() && it.amount.isNotBlank() } }
+                list.isNotEmpty() && list.all { it.amount > 0 && it.food != null && it.serving != null } }
         )
         formValidator.addField(ingredientsField)
         val stepsField = binding.instructionsRecycler.asListField(

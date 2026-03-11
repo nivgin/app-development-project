@@ -18,6 +18,7 @@ class FoodsRepository private constructor() {
             val response = NetworkClient.foodsApiClientSignpost.searchFoods(expression).execute()
 
             if (response.isSuccessful) {
+                Log.i(TAG, "searchFoods: success: ${response.code()} ${response.message()} ${response.body()}")
                 return response.body()
             } else {
                 Log.e(TAG, "searchFoods: failed: ${response.code()} ${response.message()}")
@@ -35,6 +36,7 @@ class FoodsRepository private constructor() {
             val response = NetworkClient.foodsApiClientSignpost.getFoodById(foodId).execute()
 
             if (response.isSuccessful) {
+                Log.i(TAG, "getFoodID: success: ${response.code()} ${response.message()} ${response.body()}")
                 return response.body()
             } else {
                 Log.e(TAG, "getFoodById: ${response.code()} ${response.message()}")
