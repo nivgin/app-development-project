@@ -25,6 +25,10 @@ val apiKey: String = localProperties.getProperty("cloudinary.api_key")
     ?: throw GradleException("cloudinary.api_key not found in local.properties")
 val apiSecret: String = localProperties.getProperty("cloudinary.api_secret")
     ?: throw GradleException("cloudinary.api_secret not found in local.properties")
+val fatsecretAPIKey: String = localProperties.getProperty("fatsecret.api_key")
+    ?: throw GradleException("fatsecret.api_key not found in local.properties")
+val fatsecretAPISecret: String = localProperties.getProperty("fatsecret.api_secret")
+    ?: throw GradleException("fatsecret.api_secret not found in local.properties")
 android {
     namespace = "com.example.recipease"
     compileSdk = 36
@@ -35,6 +39,8 @@ android {
         buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"$cloudName\"")
         buildConfigField("String", "CLOUDINARY_API_KEY", "\"$apiKey\"")
         buildConfigField("String", "CLOUDINARY_API_SECRET", "\"$apiSecret\"")
+        buildConfigField("String", "FATSECRET_API_KEY", "\"$fatsecretAPIKey\"")
+        buildConfigField("String", "FATSECRET_API_SECRET", "\"$fatsecretAPISecret\"")
 
         applicationId = "com.example.recipease"
         minSdk = 24

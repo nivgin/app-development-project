@@ -1,21 +1,15 @@
 package com.example.recipease.data.networking
 
-import android.net.Uri
-import android.util.Base64
-import android.util.Log
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer
-import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
+import com.example.recipease.BuildConfig
 
 object NetworkClient {
 
-    private const val CONSUMER_KEY = "b0f0861ed7f745aeba4bdd7e24bdf2f3"
-    private const val CONSUMER_SECRET = "21698085c0fa41df84195f8cf35d9fe9"
+    private const val CONSUMER_KEY = BuildConfig.FATSECRET_API_KEY
+    private const val CONSUMER_SECRET = BuildConfig.FATSECRET_API_SECRET
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
