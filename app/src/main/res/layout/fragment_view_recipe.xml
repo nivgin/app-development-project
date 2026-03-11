@@ -98,7 +98,7 @@
                     <!-- Author name -->
                     <TextView
                         android:id="@+id/viewRecipeAuthor"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:text="Author"
@@ -106,6 +106,20 @@
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@id/viewRecipeAuthorImage"
                         app:layout_constraintStart_toEndOf="@id/viewRecipeAuthorImage"
+                        app:layout_constraintEnd_toStartOf="@id/nutritionalValuesBtn"
+                        app:layout_constraintTop_toTopOf="@id/viewRecipeAuthorImage" />
+
+                    <!-- Nutritional Values Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/nutritionalValuesBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nutritional Values"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/very_light_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/viewRecipeAuthorImage"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/viewRecipeAuthorImage" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -343,5 +357,78 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <!-- Dim overlay -->
+    <View
+        android:id="@+id/nutritionalValuesDimOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/dim"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Nutritional Values Overlay Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/nutritionalValuesCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_recipe_card_bg"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/nutritionalValuesTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Nutritional Values"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/nutritionalValuesDivider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:dividerColor="@color/gray_divider"
+                app:dividerThickness="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nutritionalValuesTitle" />
+
+            <TextView
+                android:id="@+id/nutritionalValuesContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/gray_text"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nutritionalValuesDivider"
+                tools:text="Calories: 250 kcal&#10;Carbohydrates: 30 g&#10;Protein: 12 g&#10;Fat: 8 g&#10;Sodium: 400 mg&#10;Fiber: 3 g&#10;Sugar: 5 g" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

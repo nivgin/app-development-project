@@ -25,6 +25,10 @@ val apiKey: String = localProperties.getProperty("cloudinary.api_key")
     ?: throw GradleException("cloudinary.api_key not found in local.properties")
 val apiSecret: String = localProperties.getProperty("cloudinary.api_secret")
     ?: throw GradleException("cloudinary.api_secret not found in local.properties")
+val fatsecretAPIKey: String = localProperties.getProperty("fatsecret.api_key")
+    ?: throw GradleException("fatsecret.api_key not found in local.properties")
+val fatsecretAPISecret: String = localProperties.getProperty("fatsecret.api_secret")
+    ?: throw GradleException("fatsecret.api_secret not found in local.properties")
 android {
     namespace = "com.example.recipease"
     compileSdk = 36
@@ -35,6 +39,8 @@ android {
         buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"$cloudName\"")
         buildConfigField("String", "CLOUDINARY_API_KEY", "\"$apiKey\"")
         buildConfigField("String", "CLOUDINARY_API_SECRET", "\"$apiSecret\"")
+        buildConfigField("String", "FATSECRET_API_KEY", "\"$fatsecretAPIKey\"")
+        buildConfigField("String", "FATSECRET_API_SECRET", "\"$fatsecretAPISecret\"")
 
         applicationId = "com.example.recipease"
         minSdk = 24
@@ -77,6 +83,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("se.akerfeldt:okhttp-signpost:1.1.0")
+    implementation("oauth.signpost:signpost-core:2.1.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
     implementation("com.google.android.flexbox:flexbox:3.0.0")
@@ -88,6 +96,8 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.google.android.material:material:1.12.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)

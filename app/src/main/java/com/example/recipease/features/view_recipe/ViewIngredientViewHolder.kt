@@ -9,8 +9,8 @@ class ViewIngredientViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(ingredient: Ingredient) {
-        binding.ingredientName.text = ingredient.name
-        binding.ingredientAmount.text = ingredient.amount
+        binding.ingredientName.text = ingredient.food?.foodName ?: ""
+        binding.ingredientAmount.text = "${ingredient.amount} ${ingredient.serving?.servingType}"
     }
 }
 

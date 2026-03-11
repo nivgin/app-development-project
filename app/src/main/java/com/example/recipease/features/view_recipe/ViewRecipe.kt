@@ -51,6 +51,42 @@ class ViewRecipe : Fragment() {
 
         observeRecipe()
         observeUser()
+
+        binding.nutritionalValuesDimOverlay.setOnClickListener { dismissNutritionalValues() }
+        binding.nutritionalValuesBtn.setOnClickListener {
+            showNutritionalValues()
+        }
+    }
+
+    fun showNutritionalValues() {
+        binding.nutritionalValuesDimOverlay.visibility = View.VISIBLE
+        binding.nutritionalValuesCard.apply {
+            scaleX = 0.85f
+            scaleY = 0.85f
+            alpha = 0f
+            visibility = View.VISIBLE
+            animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .alpha(1f)
+                .setDuration(200)
+                .setInterpolator(android.view.animation.DecelerateInterpolator())
+                .start()
+        }
+    }
+
+    private fun dismissNutritionalValues() {
+        binding.nutritionalValuesCard.animate()
+            .scaleX(0.85f)
+            .scaleY(0.85f)
+            .alpha(0f)
+            .setDuration(150)
+            .setInterpolator(android.view.animation.AccelerateInterpolator())
+            .withEndAction {
+                binding.nutritionalValuesCard.visibility = View.GONE
+                binding.nutritionalValuesDimOverlay.visibility = View.GONE
+            }
+            .start()
     }
 
     private fun observeRecipe() {
@@ -73,6 +109,7 @@ class ViewRecipe : Fragment() {
         binding.viewRecipeDifficulty.text = recipe.difficulty
         binding.viewRecipeServings.text = recipe.servings.toString()
         binding.viewRecipeNotes.text = recipe.notes
+        binding.nutritionalValuesContent.text = viewModel.calculateNutritionalText(recipe)
         recipe.pictureUrl?.let {
             if (it.isNotBlank()) {
                 Picasso.get().load(it).into(binding.viewRecipeImage)

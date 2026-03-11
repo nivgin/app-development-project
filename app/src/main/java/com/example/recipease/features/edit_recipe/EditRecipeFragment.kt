@@ -121,9 +121,14 @@ class EditRecipeFragment : Fragment() {
     }
 
     private fun setupIngredients() {
-        ingredientsAdapter = IngredientsViewAdapter(currentRecipe.ingredients.toMutableList()) { updatedIngredients ->
-            recipeIngredients = updatedIngredients.toList()
-        }
+        ingredientsAdapter = IngredientsViewAdapter(
+            ingredients = currentRecipe.ingredients.toMutableList(),
+            onSearchFood = { query, onResults -> viewModel.searchFoods(query, onResults) },
+            onGetFoodById = { foodId, onResult -> viewModel.getFoodById(foodId, onResult) },
+            onListChanged = { updatedIngredients ->
+                recipeIngredients = updatedIngredients.toList()
+            }
+        )
         binding.ingredientsRecycler.adapter = ingredientsAdapter
         binding.ingredientsRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.addIngredientBtn.setOnClickListener {
@@ -209,8 +214,7 @@ class EditRecipeFragment : Fragment() {
 
         val ingredientsField = binding.ingredientsRecycler.asListField(
             provider = { recipeIngredients },
-            validator = { list ->
-                list.isNotEmpty() && list.all { it.name.isNotBlank() && it.amount.isNotBlank() } }
+            validator = { list -> list.isNotEmpty() && list.all { it.amount > 0 && it.amount.isFinite() && it.food != null && it.serving != null } }
         )
         formValidator.addField(ingredientsField)
         val stepsField = binding.instructionsRecycler.asListField(

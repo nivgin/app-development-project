@@ -4,10 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipease.databinding.ItemIngredientBinding
+import com.example.recipease.model.FoodIdSearchResponse
+import com.example.recipease.model.FoodSearchItem
 import com.example.recipease.model.Ingredient
+import com.example.recipease.model.ModifiedServing
 
 class IngredientsViewAdapter(
     private val ingredients: MutableList<Ingredient>,
+    private val onSearchFood: (query: String, onResults: (List<FoodSearchItem>) -> Unit) -> Unit,
+    private val onGetFoodById: (foodId: String, onResult: (FoodIdSearchResponse?) -> Unit) -> Unit,
     private val onListChanged: (List<Ingredient>) -> Unit
 ) : RecyclerView.Adapter<IngredientsViewHolder>() {
 
@@ -17,7 +22,7 @@ class IngredientsViewAdapter(
             parent,
             false
         )
-        return IngredientsViewHolder(binding)
+        return IngredientsViewHolder(binding, onSearchFood, onGetFoodById)
     }
 
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
