@@ -156,6 +156,8 @@ class IngredientsViewHolder(
         this.onChanged = onChanged
         this.onDelete = onDelete
 
+        suppressTextClear = true
+
         // Populate fields from ingredient
         binding.etIngredient.setText(ingredient.food?.foodName ?: "", false)
         binding.etAmount.setText(ingredient.amount.toString())
@@ -193,5 +195,7 @@ class IngredientsViewHolder(
             val pos = bindingAdapterPosition
             if (pos != RecyclerView.NO_POSITION) onDelete.invoke(pos)
         }
+
+        suppressTextClear = false
     }
 }
