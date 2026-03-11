@@ -192,6 +192,8 @@ class IngredientsViewHolder(
         }
 
         binding.btnDelete.setOnClickListener {
+            selectedServings = emptyList()
+            servingSpinnerAdapter.clear()
             val pos = bindingAdapterPosition
             if (pos != RecyclerView.NO_POSITION) onDelete.invoke(pos)
         }

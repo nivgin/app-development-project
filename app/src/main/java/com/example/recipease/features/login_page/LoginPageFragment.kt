@@ -87,10 +87,6 @@ class LoginPageFragment : Fragment() {
 
         FirebaseAuthModel.shared.signIn(email, password) {
             if (FirebaseAuthModel.shared.isLoggedIn()) {
-                val id = FirebaseAuthModel.shared.getCurrentUserId()
-                if (id != null) {
-                    FirebaseAuthModel.shared.populateUser(id)
-                }
                 navigateToHome()
             } else {
                 Toast.makeText(context, "Sign in failed", Toast.LENGTH_SHORT).show()

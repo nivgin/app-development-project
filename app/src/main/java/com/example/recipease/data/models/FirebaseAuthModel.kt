@@ -39,6 +39,7 @@ class FirebaseAuthModel {
                 val id = result.user?.uid.toString()
                 val user = User(id, fullname, "", 0L)
                 UserRepository.shared.addUser(user, pfp) {
+                    populateUser(result.user?.uid.toString())
                     completion()
                 }
             }

@@ -58,8 +58,8 @@ class RecipeRepository private constructor() {
         firebaseModel.deleteRecipe(recipe.id) {
             executor.execute {
                 database.recipeDao.deleteRecipe(recipe)
-                completion()
             }
+            completion()
         }
     }
 

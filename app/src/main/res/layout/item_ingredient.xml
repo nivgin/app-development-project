@@ -12,29 +12,31 @@
         android:id="@+id/etAmount"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_edittext"
         android:hint="Amount"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:padding="12dp"
         android:textSize="14sp"
-        android:background="@drawable/bg_edittext"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/etServing"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etIngredient" />
 
     <!-- Serving Dropdown -->
     <Spinner
         android:id="@+id/etServing"
-        android:layout_width="110dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="12dp"
-        android:background="@drawable/bg_edittext"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_edittext"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnDelete"
         app:layout_constraintStart_toEndOf="@id/etAmount"
-        app:layout_constraintEnd_toStartOf="@id/etIngredient"
-        app:layout_constraintTop_toTopOf="@id/etIngredient"
-        app:layout_constraintBottom_toBottomOf="@id/etIngredient" />
+        app:layout_constraintTop_toBottomOf="@id/etIngredient" />
 
     <!-- Ingredient AutoCompleteTextView -->
     <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -49,10 +51,10 @@
         android:layout_marginEnd="8dp"
         android:completionThreshold="2"
         android:dropDownWidth="match_parent"
-        app:layout_constraintStart_toEndOf="@id/etServing"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnDelete"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/etAmount" />
 
     <!-- Delete Button -->
     <ImageButton
@@ -61,10 +63,10 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_trash"
         android:background="@drawable/bg_delete_button"
+        app:tint="@color/white"
         android:padding="12dp"
         android:contentDescription="Delete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
