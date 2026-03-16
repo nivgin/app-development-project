@@ -9,6 +9,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.memoryCacheSettings
+import com.google.firebase.firestore.FieldValue
 
 class FirebaseModel {
     private var database = Firebase.firestore
@@ -54,24 +55,6 @@ class FirebaseModel {
             }
     }
 
-    fun getUserById(userId: String, completion: (User?) -> Unit) {
-        database.collection(Constants.USERS)
-            .document(userId)
-            .get()
-            .addOnCompleteListener { result ->
-                if (result.isSuccessful && result.result.exists()) {
-                    val data = result.result.data
-                    if (data != null) {
-                        completion(User.fromJson(data))
-                    } else {
-                        completion(null)
-                    }
-                } else {
-                    completion(null)
-                }
-            }
-    }
-
 
     fun addUser(user: User, completion: () -> Unit) {
         database.collection(Constants.USERS).document(user.id)
@@ -85,7 +68,12 @@ class FirebaseModel {
 
     fun deleteRecipe(recipeId: String, completion: () -> Unit) {
         database.collection(Constants.RECIPES).document(recipeId)
-            .delete()
+            .update(
+                mapOf(
+                    Recipe.DELETED_KEY to true,
+                    Recipe.LAST_UPDATED_KEY to FieldValue.serverTimestamp()
+                )
+            )
             .addOnSuccessListener { completion() }
             .addOnFailureListener { completion() }
     }
