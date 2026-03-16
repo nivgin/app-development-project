@@ -25,7 +25,8 @@ data class Recipe (
     val ingredients: List<Ingredient>,
     val pictureUrl: String?,
     val notes: String,
-    val lastUpdated: Long?
+    val lastUpdated: Long?,
+    val deleted: Boolean = false
 ) : Parcelable, Identifiable {
     companion object {
 
@@ -57,6 +58,7 @@ data class Recipe (
 
         const val NOTES_KEY = "notes"
         const val LAST_UPDATED_KEY = "lastUpdated"
+        const val DELETED_KEY = "deleted"
 
         fun fromJson(json: Map<String, Any?>): Recipe {
             val id = json[ID_KEY] as String
@@ -116,6 +118,7 @@ data class Recipe (
             val timestamp = json[LAST_UPDATED_KEY] as? Timestamp
             val notes = json[NOTES_KEY] as String
             val lastUpdatedLong = timestamp?.toDate()?.time
+            val deleted = json[DELETED_KEY] as? Boolean ?: false
 
             return Recipe(
                 id = id,
@@ -130,7 +133,8 @@ data class Recipe (
                 steps = steps,
                 ingredients = ingredients,
                 notes = notes,
-                lastUpdated = lastUpdatedLong
+                lastUpdated = lastUpdatedLong,
+                deleted = deleted
             )
         }
     }
@@ -149,6 +153,7 @@ data class Recipe (
             INGREDIENTS_KEY to ingredients,
             PICTURE_URL_KEY to pictureUrl,
             NOTES_KEY to notes,
-            LAST_UPDATED_KEY to FieldValue.serverTimestamp()
+            LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
+            DELETED_KEY to deleted
         )
 }

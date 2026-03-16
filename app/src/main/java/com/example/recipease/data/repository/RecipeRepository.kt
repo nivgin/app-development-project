@@ -41,7 +41,11 @@ class RecipeRepository private constructor() {
             executor.execute {
                 var time = lastUpdated
                 for (recipe in fetchedRecipes) {
-                    database.recipeDao.insertRecipes(recipe)
+                    if (recipe.deleted) {
+                        database.recipeDao.deleteRecipe(recipe)
+                    } else {
+                        database.recipeDao.insertRecipes(recipe)
+                    }
                     recipe.lastUpdated?.let { recipeLastUpdated ->
                         if (time < recipeLastUpdated) {
                             time = recipeLastUpdated
