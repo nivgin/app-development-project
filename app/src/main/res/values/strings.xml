@@ -13,4 +13,91 @@
     <string name="app_title">Recip-Ease</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
+
+    <!-- Common UI -->
+    <string name="add_photo">Add photo</string>
+    <string name="delete">Delete</string>
+
+    <!-- fragment_add_recipe labels -->
+    <string name="label_title">Title</string>
+    <string name="label_description">Description</string>
+    <string name="label_tags">Tags</string>
+    <string name="label_time">Time</string>
+    <string name="label_servings">Servings</string>
+    <string name="label_difficulty">Difficulty</string>
+    <string name="label_ingredients">Ingredients</string>
+    <string name="label_instructions">Instructions</string>
+    <string name="label_notes">Notes</string>
+
+    <!-- fragment_add_recipe hints / buttons -->
+    <string name="hint_recipe_title">e.g., Grandma\'s Famous Pasta</string>
+    <string name="hint_recipe_description">Tell us about your recipe...</string>
+    <string name="hint_cook_time">30 min</string>
+    <string name="hint_servings">4</string>
+    <string name="hint_notes">Any tips or variations...</string>
+    <string name="btn_add_ingredient">+ Add ingredient</string>
+    <string name="btn_add_step">+ Add step</string>
+    <string name="btn_publish_recipe">Publish Recipe</string>
+
+    <!-- Recipe card / view placeholders -->
+    <string name="placeholder_recipe_name">Recipe Name</string>
+    <string name="placeholder_description">A long description that will span across two lines or more...</string>
+    <string name="placeholder_time">30 min</string>
+    <string name="placeholder_difficulty">Medium</string>
+    <string name="placeholder_servings">4 servings</string>
+    <string name="placeholder_notes">Notes...</string>
+    <string name="placeholder_author">Author</string>
+    <string name="placeholder_step_description">Step description goes here</string>
+
+    <!-- Manage / View Recipe sections -->
+    <string name="section_ingredients">Ingredients</string>
+    <string name="section_steps">Steps</string>
+    <string name="section_notes">Notes</string>
+    <string name="btn_edit_recipe">Edit Recipe</string>
+    <string name="btn_delete_recipe">Delete Recipe</string>
+    <string name="btn_nutritional_values">Nutritional Values</string>
+    <string name="title_nutritional_values">Nutritional Values</string>
+    <string name="cd_add_photo">Add Photo</string>
+    <string name="cd_time_icon">Time icon</string>
+    <string name="cd_difficulty_icon">Difficulty icon</string>
+    <string name="cd_servings_icon">Servings icon</string>
+
+    <!-- Profile page -->
+    <string name="title_profile">Profile</string>
+    <string name="btn_log_out">Log Out</string>
+    <string name="btn_edit_profile">Edit Profile</string>
+    <string name="placeholder_user_name">User Name</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="title_my_recipes">My Recipes</string>
+    <string name="cd_profile_picture">Profile Picture</string>
+
+    <!-- Login page -->
+    <string name="label_full_name">Full Name</string>
+    <string name="hint_full_name">Enter your full name</string>
+    <string name="label_email">Email</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="label_password">Password</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="label_profile_picture">Profile Picture</string>
+    <string name="btn_sign_in">Sign In</string>
+
+    <!-- Item ingredient -->
+    <string name="hint_amount">Amount</string>
+    <string name="hint_ingredient">Ingredient</string>
+    <string name="hint_display_name">Display Name</string>
+
+    <!-- Item step -->
+    <string name="placeholder_step_number">1</string>
+    <string name="hint_step_instruction">Describe this step...</string>
+    <string name="cd_delete_step">Delete step</string>
+
+    <!-- Item view ingredient -->
+    <string name="placeholder_ingredient_name">Ingredient Name</string>
+    <string name="placeholder_ingredient_amount">Amount</string>
+
+    <!-- Item recipe card -->
+    <string name="placeholder_time_label">Time</string>
+    <string name="placeholder_difficulty_label">Difficulty</string>
+    <string name="text_by">by</string>
 </resources>

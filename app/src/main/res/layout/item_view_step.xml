@@ -25,7 +25,7 @@
             android:layout_height="38dp"
             android:background="@drawable/bg_numbered_list"
             android:gravity="center"
-            android:text="1"
+            android:text="@string/placeholder_step_number"
             android:textColor="@color/orange"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:lineSpacingExtra="4dp"
-            android:text="Step description goes here"
-            android:textColor="@android:color/black"
+            android:text="@string/placeholder_step_description"
+            android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,4 +50,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
-
