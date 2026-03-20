@@ -16,6 +16,7 @@
     <color name="light_red">#DB4747</color>
     <color name="dim">#99000000</color>
     <color name="healthy_green">#76C57C</color>
+    <color name="light_orange">#FFF3EC</color>
     <color name="image_placeholder_gray">#CCCCCC</color>
     <color name="recipe_hero_image_bg">#E0E0E0</color>
     <color name="camera_overlay">#80000000</color>

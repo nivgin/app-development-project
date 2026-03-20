@@ -23,6 +23,7 @@
     <string name="label_description">Description</string>
     <string name="label_tags">Tags</string>
     <string name="label_time">Time</string>
+    <string name="label_cook_time">Cook Time</string>
     <string name="label_servings">Servings</string>
     <string name="label_difficulty">Difficulty</string>
     <string name="label_ingredients">Ingredients</string>
