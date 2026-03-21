@@ -21,8 +21,11 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:padding="0dp">
 
+            <!-- Title Card (manage-specific: edit/delete buttons) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewRecipeTitleCard"
                 android:layout_width="0dp"
@@ -43,7 +46,6 @@
                     android:background="@color/white_recipe_card_bg"
                     android:padding="16dp">
 
-                    <!-- Recipe Title -->
                     <TextView
                         android:id="@+id/viewRecipeTitle"
                         android:layout_width="0dp"
@@ -55,7 +57,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- Description -->
                     <TextView
                         android:id="@+id/viewRecipeDescription"
                         android:layout_width="0dp"
@@ -68,7 +69,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/viewRecipeTitle" />
 
-                    <!-- Material Divider -->
                     <com.google.android.material.divider.MaterialDivider
                         android:id="@+id/viewRecipeDivider"
                         android:layout_width="0dp"
@@ -80,7 +80,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/viewRecipeDescription" />
 
-                    <!-- Edit / Delete Buttons -->
                     <LinearLayout
                         android:id="@+id/recipeActionButtons"
                         android:layout_width="0dp"
@@ -123,98 +122,180 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Recipe Details Card -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Recipe Details Cards Row -->
+            <LinearLayout
                 android:id="@+id/viewRecipeDetailsCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="24dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
+                android:orientation="horizontal"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingBottom="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewRecipeTitleCard">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                <!-- Cook Time Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/white_recipe_card_bg"
-                    android:padding="16dp">
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp">
 
-                    <!-- Time + Difficulty + Servings Row -->
                     <LinearLayout
-                        android:id="@+id/viewRecipeDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:background="@color/white_recipe_card_bg">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@drawable/ic_time"
-                            android:contentDescription="@string/cd_time_icon" />
+                            android:contentDescription="@string/cd_time_icon"
+                            app:tint="@color/orange" />
 
                         <TextView
                             android:id="@+id/viewRecipeTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/placeholder_time"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_text" />
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/label_cook_time"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray_text"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Difficulty Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:background="@color/white_recipe_card_bg">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@drawable/ic_chef"
-                            android:contentDescription="@string/cd_difficulty_icon" />
+                            android:contentDescription="@string/cd_difficulty_icon"
+                            app:tint="@color/orange" />
 
                         <TextView
                             android:id="@+id/viewRecipeDifficulty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/placeholder_difficulty"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_text" />
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/label_difficulty"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray_text"
+                            android:gravity="center" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Servings Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:background="@color/white_recipe_card_bg">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@drawable/dining_24px"
-                            android:contentDescription="@string/cd_servings_icon" />
+                            android:contentDescription="@string/cd_servings_icon"
+                            app:tint="@color/orange" />
 
                         <TextView
                             android:id="@+id/viewRecipeServings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/placeholder_servings"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_text" />
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/label_servings"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray_text"
+                            android:gravity="center" />
 
                     </LinearLayout>
 
-                    <!-- Tags RecyclerView -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/viewRecipeTagsRecyclerView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        app:layout_constraintTop_toBottomOf="@id/viewRecipeDetails"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                </com.google.android.material.card.MaterialCardView>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            <!-- Tags RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/viewRecipeTagsRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintTop_toBottomOf="@id/viewRecipeDetailsCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Ingredients Title -->
             <TextView
@@ -229,7 +310,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewRecipeDetailsCard" />
+                app:layout_constraintTop_toBottomOf="@id/viewRecipeTagsRecyclerView" />
 
             <!-- Ingredients Card -->
             <com.google.android.material.card.MaterialCardView
@@ -306,22 +387,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/viewRecipeStepsRecyclerView" />
 
-            <!-- Notes TextView -->
-            <TextView
-                android:id="@+id/viewRecipeNotes"
+            <!-- Notes Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewRecipeNotesCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="24dp"
-                android:text="@string/placeholder_notes"
-                android:textColor="@color/gray_text"
-                android:textSize="14sp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/viewRecipeNotesTitle"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/viewRecipeNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_orange"
+                    android:padding="16dp"
+                    android:text="@string/placeholder_notes"
+                    android:textColor="@color/gray_text"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Recipe image -->
             <ImageView
